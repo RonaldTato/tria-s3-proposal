@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tria S3 — Trading-First Affiliate Mechanics · Internal Proposal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #080808;
+    --bg-2: #0d0d10;
+    --card: #131318;
+    --card-hi: #1a1a22;
+    --border: #23232c;
+    --fg: #f4f4f5;
+    --fg-dim: #9a9aa3;
+    --fg-mute: #5e5e68;
+    --primary: #00d4f7;
+    --positive: #34d399;
+    --warning: #fbbf24;
+    --danger: #f87171;
+    --tier-bronze: #c07830;
+    --tier-silver: #8b92a3;
+    --tier-gold: #d4a017;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'Inter', system-ui, sans-serif;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .cosmos {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(1100px 700px at 15% 10%, rgba(0, 212, 247, 0.08), transparent 60%),
+      radial-gradient(900px 600px at 85% 90%, rgba(167, 139, 250, 0.06), transparent 55%),
+      var(--bg);
+  }
+  .wrap {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 56px 28px 80px;
+  }
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--primary);
+  }
+  h1 {
+    font-size: 40px;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    margin: 12px 0 16px;
+  }
+  h1 .accent {
+    background: linear-gradient(135deg, var(--primary), #a78bfa 60%, #f0abfc);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  h2 {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    margin: 56px 0 18px;
+  }
+  h3 {
+    font-size: 17px;
+    font-weight: 700;
+    margin: 28px 0 10px;
+  }
+  .lede {
+    font-size: 17px;
+    color: var(--fg-dim);
+    max-width: 720px;
+    margin: 0 0 28px;
+  }
+  .meta {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    font-size: 12px;
+    color: var(--fg-mute);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 0;
+    margin: 28px 0 0;
+  }
+  .meta strong {
+    color: var(--fg-dim);
+    font-weight: 600;
+  }
+  .meta .dot { color: var(--fg-mute); }
+  p { color: var(--fg-dim); margin: 0 0 14px; }
+  p strong, li strong { color: var(--fg); font-weight: 600; }
+  ul, ol {
+    color: var(--fg-dim);
+    padding-left: 22px;
+    margin: 8px 0 14px;
+  }
+  li { margin-bottom: 6px; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px 24px;
+    margin: 14px 0;
+  }
+  .card.accent-positive { border-left: 3px solid var(--positive); }
+  .card.accent-warning { border-left: 3px solid var(--warning); }
+  .card.accent-primary { border-left: 3px solid var(--primary); }
+  .card.accent-danger { border-left: 3px solid var(--danger); }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0;
+    font-size: 14px;
+  }
+  th, td {
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  th {
+    color: var(--fg-mute);
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    background: var(--bg-2);
+  }
+  td { color: var(--fg); }
+  td.dim { color: var(--fg-dim); }
+  td.num, th.num { text-align: right; font-family: 'JetBrains Mono', monospace; }
+  .pill {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .pill.tria { background: rgba(0, 212, 247, 0.12); color: var(--primary); border: 1px solid rgba(0, 212, 247, 0.3); }
+  .pill.eth  { background: rgba(167, 139, 250, 0.12); color: #c4b5fd; border: 1px solid rgba(167, 139, 250, 0.3); }
+  .pill.win  { background: rgba(52, 211, 153, 0.12); color: var(--positive); border: 1px solid rgba(52, 211, 153, 0.3); }
+  .pill.gap  { background: rgba(248, 113, 113, 0.12); color: var(--danger); border: 1px solid rgba(248, 113, 113, 0.3); }
+  .pill.priority { background: rgba(251, 191, 36, 0.14); color: var(--warning); border: 1px solid rgba(251, 191, 36, 0.3); }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  @media (max-width: 720px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    h1 { font-size: 30px; }
+    .wrap { padding: 32px 18px 60px; }
+  }
+  .num-big {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--positive);
+  }
+  .footnote {
+    font-size: 11px;
+    color: var(--fg-mute);
+    border-top: 1px solid var(--border);
+    margin-top: 56px;
+    padding-top: 20px;
+  }
+  .toc {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 28px 0;
+    font-size: 13px;
+    color: var(--fg-dim);
+  }
+  .toc a {
+    color: var(--fg-dim);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--border);
+  }
+  .toc a:hover { color: var(--primary); border-color: var(--primary); }
+  .toc-title {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--fg-mute);
+    margin-bottom: 6px;
+  }
+</style>
+</head>
+<body>
+<div class="cosmos"></div>
+<div class="wrap">
+
+  <div class="eyebrow">Internal proposal · Season 3 update</div>
+  <h1>Beating ether.fi at <span class="accent">trading-first</span> affiliate mechanics</h1>
+  <p class="lede">
+    ether.fi's affiliate program is well-designed for cards, but it's structurally
+    capped at card-only mechanics. Tria operates across cards <em>and</em> trading,
+    which gives us volume dimensions ether.fi can't address. This proposal lifts
+    their best ideas, translates them to trading, and adds three mechanics they
+    structurally cannot replicate.
+  </p>
+  <div class="meta">
+    <span><strong>Author</strong>: Ronald · Internal draft</span>
+    <span class="dot">·</span>
+    <span><strong>Source</strong>: <a style="color:inherit" href="https://www.ether.fi/affiliates" target="_blank">ether.fi/affiliates</a></span>
+    <span class="dot">·</span>
+    <span><strong>Status</strong>: Proposal — not committed</span>
+  </div>
+
+  <div class="toc">
+    <div class="toc-title">In this doc</div>
+    <a href="#snapshot">1. ether.fi snapshot</a> ·
+    <a href="#vulns">2. Their vulnerabilities</a> ·
+    <a href="#wins">3. Where Tria already wins</a> ·
+    <a href="#proposal">4. Trading-first additions</a> ·
+    <a href="#priority">5. Priority recommendation</a>
+  </div>
+
+  <h2 id="snapshot">1. ether.fi affiliate program — snapshot</h2>
+  <p>
+    Their structure is a clean 4-tier ladder. Tier 1 is the default; Tier 2+
+    requires both an all-time and a rolling 90-day count of qualifying referrals.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Tier</th>
+        <th class="num">Cashback on Ref Spending</th>
+        <th class="num">New Member Bonus</th>
+        <th class="num">High Spender Bonus</th>
+        <th class="num">Physical Card Comm.</th>
+        <th class="num">2nd Degree Revshare</th>
+        <th>Unlock</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Tier 1</td><td class="num">0.1%</td><td class="num">$10</td><td class="num">$15</td><td class="num">10%</td><td class="num dim">—</td><td class="dim">Default</td></tr>
+      <tr><td>Tier 2</td><td class="num">0.2%</td><td class="num">$15</td><td class="num">$20</td><td class="num">15%</td><td class="num">20%</td><td class="dim">50 all-time / 10 in 90d</td></tr>
+      <tr><td>Tier 3</td><td class="num">0.25%</td><td class="num">$20</td><td class="num">$25</td><td class="num">20%</td><td class="num">20%</td><td class="dim">100 / 20</td></tr>
+      <tr><td>Tier 4</td><td class="num">0.3%</td><td class="num">$20</td><td class="num">$25</td><td class="num">25%</td><td class="num">20%</td><td class="dim">500 / 50</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size: 13px;">
+    <strong>Qualifying referral</strong>: signs up + activates Cash card + reaches
+    $100 personal spend. <strong>Active-user math</strong> for tier maintenance:
+    rolling 90-day count of qualifying referrals.
+  </p>
+
+  <h2 id="vulns">2. Where ether.fi has real vulnerabilities</h2>
+
+  <div class="card accent-danger">
+    <h3 style="margin-top:0">a. Payout opacity</h3>
+    <p>
+      No disclosed cadence, currency, minimum, or method. "See earnings live" is shown
+      but no settlement mechanics are public. Major trust gap.
+    </p>
+    <p><span class="pill tria">Tria</span> Spec is explicit: weekly Wednesday claim, $100 minimum, Merkle pipeline, paid to Tria Account.</p>
+  </div>
+
+  <div class="card accent-danger">
+    <h3 style="margin-top:0">b. No anti-fraud / anti-farming language</h3>
+    <p>
+      A referral program at this scale without documented clawback or idempotency is
+      exposed to multi-account farming.
+    </p>
+    <p><span class="pill tria">Tria</span> The <code>points-referrals.md</code> spec explicitly handles atomic write semantics, reversal symmetry, and ops clawback paths.</p>
+  </div>
+
+  <div class="card accent-warning">
+    <h3 style="margin-top:0">c. Cashback ceiling is very low</h3>
+    <p>
+      0.1%–0.3% is barely material on small spend. Even at Tier 4 + 25% physical card
+      commission, the ceiling on a 500-referral pyramid is modest.
+    </p>
+    <p><span class="pill tria">Tria</span> Tier-gated card commission is 20–30% on card purchase + 0.05–0.25% on every transaction, ongoing.</p>
+  </div>
+
+  <div class="card accent-warning">
+    <h3 style="margin-top:0">d. Pure commission program — no engagement layer</h3>
+    <p>
+      No points, badges, boxes, or VIP cashback on the referrer's own activity. Users
+      have no reason to use the product themselves except for marginal cashback.
+    </p>
+    <p><span class="pill tria">Tria</span> Cash + Points + VIP Cashback gives the referrer 3 reinforcing reasons to be active.</p>
+  </div>
+
+  <div class="card accent-warning">
+    <h3 style="margin-top:0">e. 2nd-degree revshare gated behind 50 refs</h3>
+    <p>
+      New ambassadors get 0% indirect until they hit a high bar.
+    </p>
+    <p><span class="pill tria">Tria</span> Indirect (5% trading / 10% card) is unlocked from day 1, gated only by the referee's active status.</p>
+  </div>
+
+  <div class="card accent-warning">
+    <h3 style="margin-top:0">f. Single-product scope (cards only)</h3>
+    <p>
+      Trading, staking, restaking, transfers — none of it pays affiliate commissions.
+      Their ETH-restaking flywheel and their referral program don't interact.
+    </p>
+    <p><span class="pill tria">Tria</span> Captures card spend + card txn fees + futures trading volume + VIP cashback on personal trading.</p>
+  </div>
+
+  <h2 id="wins">3. Where Tria already wins</h2>
+  <table>
+    <thead><tr><th>Dimension</th><th>Tria</th><th>ether.fi</th></tr></thead>
+    <tbody>
+      <tr><td>Reward tracks</td><td>Cash + Points + VIP cashback</td><td class="dim">Cash only</td></tr>
+      <tr><td>Indirect from day 1</td><td><span class="pill win">5% / 10%</span></td><td class="dim">Tier 2+ only</td></tr>
+      <tr><td>Active-user math</td><td>$100 / $10K / 90d</td><td class="dim">"Activated card" (vague)</td></tr>
+      <tr><td>Payout mechanics</td><td>Wed claim · $100 min · Merkle</td><td class="dim">Undisclosed</td></tr>
+      <tr><td>Anti-fraud spec</td><td><span class="pill win">Idempotency + reversal + clawback</span></td><td class="dim">Not addressed publicly</td></tr>
+      <tr><td>Seasonal cadence</td><td>3-month resets + equity moments</td><td class="dim">None</td></tr>
+      <tr><td>Experiential rewards</td><td>Vouchers, AM, Annual Meet, equity</td><td class="dim">None</td></tr>
+      <tr><td>Multi-product scope</td><td>Card + trading + earn + transfer</td><td class="dim">Card only</td></tr>
+      <tr><td>Personal-activity reward</td><td>VIP cashback on YOUR trading</td><td class="dim">None</td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="proposal">4. Trading-first additions — where we beat them</h2>
+
+  <p>
+    ether.fi's strongest mechanics — the <strong>New Member Bonus</strong>,
+    <strong>High Spender Bonus</strong>, and <strong>all-time + 90d combo</strong>
+    — are templates that translate cleanly to trading volume. Trading volumes are
+    an order of magnitude larger than card spending, so the same mechanics produce
+    much bigger numbers and more frequent celebration moments.
+  </p>
+
+  <h3>4.1 Trading Milestone Bonuses</h3>
+  <p>Pattern lifted from ether.fi's "High Spender Bonus" — applied to lifetime trading volume.</p>
+  <table>
+    <thead><tr><th>Ref's lifetime trading volume</th><th>One-time bonus to referrer</th></tr></thead>
+    <tbody>
+      <tr><td>$50K</td><td class="num">$25</td></tr>
+      <tr><td>$250K</td><td class="num">$100</td></tr>
+      <tr><td>$1M</td><td class="num">$500</td></tr>
+      <tr><td>$10M</td><td class="num">$2,500 + "Whale Captured" badge</td></tr>
+      <tr><td>$100M</td><td class="num">$25,000 + named recognition</td></tr>
+    </tbody>
+  </table>
+  <p>
+    Each milestone fires once per referee. Creates anticipation as you watch a ref
+    grow. <strong>ether.fi structurally can't do this</strong> — card spend volumes never reach
+    these scales.
+  </p>
+
+  <h3>4.2 First Big Trade Bonus</h3>
+  <p>Pattern lifted from ether.fi's "New Member Bonus" — applied to a referee's first qualifying trade.</p>
+  <ul>
+    <li>Referee places first ≥$10K trade → <strong>$10 instant bonus</strong> + <strong>50 Tria Points</strong> to the referrer.</li>
+    <li>Currently we just flip an "active" flag silently. This monetizes the activation moment.</li>
+  </ul>
+
+  <h3>4.3 Network Volume Tier (NVT) — new ladder</h3>
+  <p>
+    Today we count <em>referral count</em>. ether.fi does the same. <strong>Add a parallel
+    ladder based on cumulative network trading volume</strong>, separate from the count-based
+    Bronze→Gold tiers.
+  </p>
+  <table>
+    <thead><tr><th>NVT</th><th>Lifetime Network Volume</th><th>Boost to your trading commission rate</th></tr></thead>
+    <tbody>
+      <tr><td>NVT-1</td><td>$1M</td><td class="num">+0.5%</td></tr>
+      <tr><td>NVT-2</td><td>$10M</td><td class="num">+1%</td></tr>
+      <tr><td>NVT-3</td><td>$50M</td><td class="num">+2%</td></tr>
+      <tr><td>NVT-4</td><td>$250M</td><td class="num">+3%</td></tr>
+    </tbody>
+  </table>
+  <p>
+    Rewards <strong>quality</strong>. One $50M whale ref = NVT-3 even with only 5 refs.
+    Quantity-only ladders punish ambassadors who bring in fewer-but-bigger users —
+    which is exactly the user type we want most.
+  </p>
+
+  <h3>4.4 All-time + 90-day display</h3>
+  <p>Steal directly. Surface both numbers in the Tier Progression card:</p>
+  <div class="card">
+    <p style="margin:0; color: var(--fg-dim); font-size: 13px;">
+      <strong>Network Volume:</strong> $4.2M lifetime · <strong>$850K</strong> last 90 days<br />
+      <strong>Network Refs:</strong> 47 all-time · <strong>18</strong> active now
+    </p>
+  </div>
+  <p>
+    Honors the long-tenured ambassador who has a quiet quarter. Avoids the "lost
+    everything because your refs took a vacation" feeling.
+  </p>
+
+  <h3>4.5 Network Volume Cashback — the asymmetric advantage</h3>
+  <p>
+    The one ether.fi will never match. Currently VIP cashback only applies to your
+    own trading volume. <strong>Add: an additional cashback rate on your card spend, scaled
+    by network trading volume.</strong>
+  </p>
+  <table>
+    <thead><tr><th>Network 30d trading vol</th><th>Bonus cashback on YOUR card</th></tr></thead>
+    <tbody>
+      <tr><td>$1M</td><td class="num">+0.5%</td></tr>
+      <tr><td>$10M</td><td class="num">+1%</td></tr>
+      <tr><td>$50M</td><td class="num">+2%</td></tr>
+      <tr><td>$250M</td><td class="num">+3%</td></tr>
+    </tbody>
+  </table>
+  <p>
+    Stacks card + trading rewards in a way ether.fi cannot, because they only do
+    cards. <strong>Builds a flywheel</strong>: ambassadors who recruit traders use their own card
+    more (because the cashback is now meaningful).
+  </p>
+
+  <h3>4.6 Whale Capture Bonus</h3>
+  <ul>
+    <li>When a ref becomes VIP-3+ (≥$30M / 30d trading), referrer gets <strong>$1,000 one-time bonus</strong>.</li>
+    <li><strong>Permanent +5% indirect</strong> on that whale's trading fees (overrides the standard 5%).</li>
+    <li><strong>"Whale Whisperer" badge.</strong></li>
+  </ul>
+  <p>
+    Aligns recruitment incentive with quality, not bodies. ether.fi pays the same
+    regardless of whether your ref is a $50/mo card user or a millionaire.
+  </p>
+
+  <h3>4.7 Network Streak Bonus</h3>
+  <ul>
+    <li>Network maintains ≥$100K weekly volume for <strong>4 consecutive weeks</strong> → +50% to trading commission for the next week.</li>
+    <li>8 weeks → +100%.</li>
+    <li>12 weeks → +150% AND unlock "Sustained Whale Network" badge.</li>
+  </ul>
+  <p>Rewards consistency, prevents one-off spikes.</p>
+
+  <h3>4.8 Asset-class multiplier — push Decibel</h3>
+  <p>
+    Volume on <strong>Decibel</strong> (Tria's native exchange) earns <strong>1.5×</strong> the trading commission of
+    Hyperliquid. Routes recruitment energy toward the venue where Tria captures
+    more margin.
+  </p>
+
+  <h3>4.9 Volume Leaderboards</h3>
+  <ul>
+    <li>Top 100 ambassadors by 30-day network volume — public leaderboard.</li>
+    <li>Top 10 get <strong>+0.1% commission boost</strong> the following month.</li>
+  </ul>
+  <p>ether.fi has no leaderboard at all. Pure social pressure mechanic.</p>
+
+  <h3>4.10 Volume achievement badges (status, no payout)</h3>
+  <table>
+    <thead><tr><th>Badge</th><th>Trigger</th></tr></thead>
+    <tbody>
+      <tr><td>First Whale</td><td class="dim">Refer someone who reaches VIP-1</td></tr>
+      <tr><td>Pod Captain</td><td class="dim">Network 30d volume ≥ $5M</td></tr>
+      <tr><td>Volume King</td><td class="dim">Network 30d volume ≥ $50M</td></tr>
+      <tr><td>Decibel Champion</td><td class="dim">Network does $10M on Decibel specifically</td></tr>
+      <tr><td>Liquidity Lord</td><td class="dim">Sustained $1M+ daily for 30 days</td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="priority">5. Recommended priority — ship these three first</h2>
+
+  <p>
+    To change the program shape with the smallest engineering surface, start with
+    these three. Each is self-contained and addresses a distinct gap.
+  </p>
+
+  <div class="grid-3">
+    <div class="card accent-positive">
+      <span class="pill priority">Priority 1</span>
+      <h3 style="margin-top:8px">Network Volume Tier (NVT)</h3>
+      <p>Solves the "only counts bodies" problem. Rewards quality over quantity. ether.fi can't replicate.</p>
+    </div>
+    <div class="card accent-positive">
+      <span class="pill priority">Priority 2</span>
+      <h3 style="margin-top:8px">Network Volume Cashback</h3>
+      <p>Creates the card+trading flywheel ether.fi structurally cannot match. Single biggest moat.</p>
+    </div>
+    <div class="card accent-positive">
+      <span class="pill priority">Priority 3</span>
+      <h3 style="margin-top:8px">All-time / 90-day dual display</h3>
+      <p>Cheap to ship, immediate trust signal. Pure UI work, no new ledger logic.</p>
+    </div>
+  </div>
+
+  <p style="margin-top: 28px;">
+    Items 4.1, 4.2, 4.6, 4.7, and 4.9 are all great follow-ups but require new
+    payout flows, ops work, or leaderboard infrastructure. Suggest staging them
+    after the first three land.
+  </p>
+
+  <div class="footnote">
+    <p style="margin:0">
+      Sources: <a style="color:inherit" href="https://www.ether.fi/affiliates" target="_blank">ether.fi/affiliates</a> ·
+      Tria Season 3 Rewards Program spec ·
+      <code>specs/growth/points-referrals.md</code> ·
+      <code>specs/growth/tiers.md</code>.
+    </p>
+    <p style="margin:8px 0 0">
+      Internal draft — share with leadership only. Numbers are anchor proposals,
+      not committed rates.
+    </p>
+  </div>
+
+</div>
+</body>
+</html>
