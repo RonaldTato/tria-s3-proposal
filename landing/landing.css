@@ -1582,9 +1582,12 @@ footer .links { display: flex; gap: var(--space-4); }
   .h1-anim { display: block; max-width: 100%; }
   .h1-anim .word { white-space: normal; }
   .h1-anim .word.accent-word { padding-right: 0.12em; }
-  /* The <br/> between line-1 and line-2 becomes redundant when both are
-     block; explicit margin keeps the spacing intentional. */
-  .h1-anim.line-2 { margin-top: 0.08em; }
+  /* The <br/> between line-1 and line-2 leaves a phantom 43px gap when
+     both .h1-anim spans are display: block (the <br/> creates its own line
+     box of font-height ≈ 43px). Hide it on mobile — the block layout
+     already stacks the two lines cleanly. */
+  .hero h1 br { display: none; }
+  .h1-anim.line-2 { margin-top: 0.12em; }
 
   .hero .sub { max-width: 100%; }
   .hero .smaller { max-width: 100%; }
@@ -1624,6 +1627,60 @@ footer .links { display: flex; gap: var(--space-4); }
   /* Hero strip — keep the 2x2 grid tight on small screens */
   .hero-strip { padding: var(--space-3) 0; }
   .hero-strip-item .val { font-size: var(--text-lg); }
+
+  /* Ladder rows — restructure so the rung name is a full-width header
+     and the 4 stat cells fall into a clean 2×2 grid below it. The default
+     mobile rule was a flat 2-col grid with 5 items per row, which produced
+     a Bronze 1 cell sharing a row with "Active refs" and an orphan
+     "Futures" cell on the third row. */
+  .ladder-row,
+  .ladder-phantom { gap: var(--space-2) var(--space-3); }
+  .ladder-row > .rung-cell,
+  .ladder-phantom > .rung-cell {
+    grid-column: 1 / -1;
+    padding-bottom: var(--space-2);
+    margin-bottom: var(--space-1);
+    border-bottom: 1px dashed var(--border-soft);
+  }
+  .ladder-row .num,
+  .ladder-row .ref-range,
+  .ladder-phantom .num,
+  .ladder-phantom .ref-range { font-size: var(--text-sm); }
+
+  /* Compound rows ("How it compounds — 5 sub-ambassadors").
+     Was a 3-column grid (110px label / 1fr track / auto value) — the value
+     "~2.0× run-rate" wrapped to 2 lines on mobile, squeezing the track to
+     ~36px and making the bars effectively invisible. Restructure to a
+     two-row template: label + value share row 1, track spans both columns
+     of row 2 at full width. */
+  .compound-row {
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "k v"
+      "track track";
+    gap: 4px var(--space-3);
+    align-items: center;
+  }
+  .compound-row .k     { grid-area: k; }
+  .compound-row .v     { grid-area: v; white-space: nowrap; }
+  .compound-row .track { grid-area: track; height: 8px; }
+
+  /* Calculator breakdown rows.
+     Was a 4-column grid (160px label / 1fr track / auto value / auto pct).
+     Same squeeze problem. Move the track onto its own row spanning full
+     width; label + value + pct share row 1. */
+  .bd-row {
+    grid-template-columns: 1fr auto auto;
+    grid-template-areas:
+      "k v pct"
+      "track track track";
+    gap: 4px var(--space-2);
+    align-items: center;
+  }
+  .bd-row .k     { grid-area: k; }
+  .bd-row .v     { grid-area: v; min-width: 0; }
+  .bd-row .pct   { grid-area: pct; }
+  .bd-row .track { grid-area: track; height: 6px; }
 }
 
 @media (max-width: 420px) {
