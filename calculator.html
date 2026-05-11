@@ -1,774 +1,429 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Tria Affiliate Earnings Calculator</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tria Ambassador Earnings Calculator</title>
 <style>
-  :root {
-    --bg: #080808;
-    --bg-2: #0d0d10;
-    --card: #131318;
-    --card-hi: #1a1a22;
-    --border: #23232c;
-    --fg: #f4f4f5;
-    --fg-dim: #9a9aa3;
-    --fg-mute: #5e5e68;
-    --primary: #00d4f7;
-    --primary-2: #a78bfa;
-    --positive: #34d399;
-    --warning: #fbbf24;
-    --danger: #f87171;
-    --tier-bronze-1: #c07830;
-    --tier-bronze-2: #d69558;
-    --tier-silver-1: #8b92a3;
-    --tier-silver-2: #b4bcca;
-    --tier-gold: #d4a017;
-    --tier-platinum: #a78bfa;
-    --tier-diamond: #00d4f7;
+  :root{
+    --bg:#0a0a0a;
+    --panel:#111;
+    --panel-2:#161616;
+    --border:#222;
+    --border-strong:#333;
+    --text:#e8e8e8;
+    --muted:#888;
+    --dim:#666;
+    --accent:#ff4d6d;
+    --accent-soft:rgba(255,77,109,0.12);
+    --good:#3ddc97;
+    --gold:#f4c542;
   }
-  * { box-sizing: border-box; }
-  html, body {
-    margin: 0; padding: 0;
-    background: var(--bg);
-    color: var(--fg);
-    font-family: 'Inter', system-ui, sans-serif;
-    line-height: 1.55;
-    -webkit-font-smoothing: antialiased;
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,'Inter','Helvetica Neue',sans-serif;
+    background:var(--bg);color:var(--text);
+    line-height:1.5;min-height:100vh;
+    padding:32px 16px;
   }
-  .cosmos {
-    position: fixed; inset: 0; z-index: -1; pointer-events: none;
-    background:
-      radial-gradient(1200px 800px at 15% 0%, rgba(0, 212, 247, 0.10), transparent 60%),
-      radial-gradient(900px 600px at 85% 100%, rgba(167, 139, 250, 0.07), transparent 55%),
-      var(--bg);
+  .wrap{max-width:1080px;margin:0 auto}
+  header{margin-bottom:32px}
+  header .eyebrow{
+    display:inline-block;font-size:11px;font-weight:600;letter-spacing:0.12em;
+    text-transform:uppercase;color:var(--accent);
+    background:var(--accent-soft);padding:6px 12px;border-radius:999px;margin-bottom:16px
   }
-  .wrap { max-width: 1180px; margin: 0 auto; padding: 56px 28px 80px; }
-  .topnav {
-    display: flex; gap: 18px; font-size: 12px; color: var(--fg-dim);
-    margin-bottom: 36px;
-  }
-  .topnav a {
-    color: var(--fg-dim); text-decoration: none;
-    padding: 6px 12px; border-radius: 999px; border: 1px solid var(--border);
-    transition: all 0.15s;
-  }
-  .topnav a:hover, .topnav a.active {
-    color: var(--primary); border-color: rgba(0, 212, 247, 0.4);
-    background: rgba(0, 212, 247, 0.06);
-  }
-  .eyebrow {
-    font-size: 11px; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 0.18em; color: var(--primary);
-  }
-  h1 {
-    font-size: 44px; font-weight: 800;
-    letter-spacing: -0.025em; line-height: 1.05;
-    margin: 12px 0 14px;
-  }
-  h1 .accent {
-    background: linear-gradient(135deg, var(--primary), var(--primary-2) 60%, #f0abfc);
-    -webkit-background-clip: text; background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  h2 { font-size: 24px; font-weight: 700; letter-spacing: -0.015em; margin: 0 0 18px; }
-  h3 { font-size: 16px; font-weight: 700; margin: 0 0 8px; }
-  .lede { font-size: 16px; color: var(--fg-dim); max-width: 720px; margin: 0 0 36px; }
-  p { color: var(--fg-dim); margin: 0 0 12px; }
-  .micro { font-size: 11px; color: var(--fg-mute); }
+  h1{font-size:34px;font-weight:700;letter-spacing:-0.02em;margin-bottom:8px}
+  header p{color:var(--muted);font-size:15px;max-width:640px}
 
-  /* === Persona toggle === */
-  .persona {
-    display: inline-flex; gap: 4px; padding: 4px;
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 999px; margin-bottom: 32px;
+  .layout{display:grid;grid-template-columns:1fr 1.4fr;gap:24px}
+  @media (max-width:880px){.layout{grid-template-columns:1fr}}
+
+  .panel{
+    background:var(--panel);border:1px solid var(--border);border-radius:14px;
+    padding:24px
   }
-  .persona button {
-    padding: 8px 18px; border-radius: 999px; border: none;
-    background: transparent; color: var(--fg-dim);
-    font: 600 13px 'Inter', sans-serif; cursor: pointer;
-    transition: all 0.15s; letter-spacing: 0.02em;
-  }
-  .persona button.active {
-    background: var(--primary); color: var(--bg);
+  .panel h2{
+    font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:18px
   }
 
-  /* === Calculator grid === */
-  .calc {
-    display: grid; grid-template-columns: 1.1fr 1fr;
-    gap: 18px; margin-bottom: 56px;
+  .field{margin-bottom:22px}
+  .field:last-child{margin-bottom:0}
+  .field-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+  .field label{font-size:14px;color:var(--text)}
+  .field .hint{font-size:11px;color:var(--dim);margin-top:6px}
+  .field .val{font-family:'SF Mono',Menlo,monospace;font-size:14px;color:var(--accent);font-weight:600}
+  .field input[type=range]{
+    width:100%;height:4px;-webkit-appearance:none;appearance:none;
+    background:var(--border);border-radius:999px;outline:none;cursor:pointer
   }
-  @media (max-width: 900px) { .calc { grid-template-columns: 1fr; } }
-
-  .card-glass {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 14px; padding: 24px;
+  .field input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;appearance:none;width:18px;height:18px;
+    background:var(--accent);border-radius:50%;cursor:pointer;
+    border:3px solid var(--bg);box-shadow:0 0 0 1px var(--accent)
   }
-  .field { margin-bottom: 22px; }
-  .field:last-child { margin-bottom: 0; }
-  .field label {
-    display: flex; justify-content: space-between; align-items: baseline;
-    font-size: 13px; font-weight: 600; margin-bottom: 6px;
-  }
-  .field label .val {
-    font-family: 'JetBrains Mono', monospace; font-weight: 700;
-    color: var(--primary); font-size: 14px;
-  }
-  .field .sub {
-    font-size: 11px; color: var(--fg-mute);
-    margin-top: 4px;
-  }
-  input[type=range] {
-    width: 100%; height: 4px;
-    -webkit-appearance: none; appearance: none;
-    background: transparent; cursor: pointer;
-  }
-  input[type=range]::-webkit-slider-runnable-track {
-    height: 4px; border-radius: 999px;
-    background: linear-gradient(to right,
-      var(--primary) 0%, var(--primary) var(--p, 0%),
-      var(--border) var(--p, 0%), var(--border) 100%);
-  }
-  input[type=range]::-moz-range-track {
-    height: 4px; border-radius: 999px;
-    background: linear-gradient(to right,
-      var(--primary) 0%, var(--primary) var(--p, 0%),
-      var(--border) var(--p, 0%), var(--border) 100%);
-  }
-  input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none; appearance: none;
-    width: 18px; height: 18px; margin-top: -7px;
-    background: var(--primary); border-radius: 50%;
-    border: 2px solid var(--bg);
-    box-shadow: 0 0 12px rgba(0, 212, 247, 0.6);
-    cursor: pointer;
-  }
-  input[type=range]::-moz-range-thumb {
-    width: 18px; height: 18px;
-    background: var(--primary); border-radius: 50%;
-    border: 2px solid var(--bg);
-    box-shadow: 0 0 12px rgba(0, 212, 247, 0.6);
-    cursor: pointer; border-width: 2px;
+  .field input[type=range]::-moz-range-thumb{
+    width:18px;height:18px;background:var(--accent);border-radius:50%;
+    cursor:pointer;border:3px solid var(--bg);box-shadow:0 0 0 1px var(--accent)
   }
 
-  /* === Output column === */
-  .tier-display {
-    display: flex; align-items: center; gap: 14px;
-    padding-bottom: 18px;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 18px;
+  .tier-card{
+    background:linear-gradient(180deg,var(--panel-2) 0%,var(--panel) 100%);
+    border:1px solid var(--border-strong);
+    border-radius:12px;padding:20px;margin-bottom:18px
   }
-  .tier-badge {
-    display: inline-flex; align-items: center; justify-content: center;
-    width: 56px; height: 56px; border-radius: 14px;
-    background: linear-gradient(135deg, var(--tier-color, var(--primary)) 0%, rgba(255,255,255,0) 100%),
-                rgba(0, 0, 0, 0.4);
-    border: 1.5px solid var(--tier-color, var(--primary));
-    box-shadow: 0 0 28px var(--tier-glow, rgba(0, 212, 247, 0.4));
-    font: 800 13px 'Inter', sans-serif;
-    color: var(--fg); letter-spacing: 0.04em;
-    flex-shrink: 0;
+  .tier-name{font-size:24px;font-weight:700;margin-bottom:4px}
+  .tier-range{color:var(--muted);font-size:13px;margin-bottom:14px}
+  .rates{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .rate{
+    background:var(--bg);border:1px solid var(--border);border-radius:8px;
+    padding:10px 12px
   }
-  .tier-info .micro { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; }
-  .tier-info .name {
-    font: 700 22px 'Inter', sans-serif;
-    color: var(--tier-color, var(--primary));
-    letter-spacing: -0.01em; margin: 2px 0 2px;
-  }
-  .tier-info .threshold { font-size: 12px; color: var(--fg-dim); }
+  .rate-label{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px}
+  .rate-val{font-size:18px;font-weight:700;font-family:'SF Mono',Menlo,monospace}
 
-  /* === Big total === */
-  .total-row {
-    display: flex; justify-content: space-between; align-items: baseline;
-    padding: 22px 0; border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border); margin: 18px 0;
+  .ladder-mini{margin-top:18px;display:flex;gap:4px}
+  .rung{
+    flex:1;height:6px;background:var(--border);border-radius:2px;transition:background 0.2s
   }
-  .total-row .label {
-    font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em;
-    color: var(--fg-dim);
-  }
-  .total-row .big {
-    font: 800 38px 'JetBrains Mono', monospace;
-    color: var(--positive); letter-spacing: -0.02em;
-  }
-  .total-row .yr {
-    font-size: 12px; color: var(--fg-mute);
-    font-family: 'JetBrains Mono', monospace;
-    margin-top: 4px;
-  }
+  .rung.active{background:var(--accent)}
+  .rung.current{background:var(--gold);box-shadow:0 0 8px var(--gold)}
 
-  /* === Breakdown === */
-  .breakdown {
-    display: flex; flex-direction: column; gap: 10px;
+  .stream{
+    background:var(--panel-2);border:1px solid var(--border);border-radius:10px;
+    padding:18px;margin-bottom:14px
   }
-  .stream {
-    display: grid; grid-template-columns: 1fr auto;
-    gap: 10px; padding: 12px 14px;
-    background: var(--bg-2); border: 1px solid var(--border);
-    border-radius: 10px;
-  }
-  .stream .lbl {
-    display: flex; align-items: center; gap: 8px;
-    font-size: 13px; color: var(--fg);
-  }
-  .stream .lbl .dot {
-    width: 6px; height: 6px; border-radius: 50%;
-    background: var(--stream-color, var(--primary));
-    box-shadow: 0 0 8px var(--stream-color, var(--primary));
-  }
-  .stream .lbl .rate {
-    font: 600 11px 'JetBrains Mono', monospace;
-    color: var(--fg-mute); padding: 2px 6px;
-    background: rgba(255,255,255,0.04); border-radius: 4px;
-  }
-  .stream .num {
-    font: 700 16px 'JetBrains Mono', monospace;
-    color: var(--positive);
-  }
-  .stream .num .per { font-size: 10px; color: var(--fg-mute); font-weight: 400; margin-left: 2px; }
-  .stream .formula {
-    grid-column: 1 / -1; font-size: 11px; color: var(--fg-mute);
-    font-family: 'JetBrains Mono', monospace; padding-top: 4px;
-    border-top: 1px dashed var(--border); margin-top: 2px;
-  }
+  .stream:last-child{margin-bottom:0}
+  .stream-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+  .stream-title{font-size:14px;font-weight:600}
+  .stream-result{font-size:18px;font-weight:700;color:var(--good);font-family:'SF Mono',Menlo,monospace}
+  .stream-result.zero{color:var(--dim)}
+  .chain{font-size:13px;line-height:1.7;color:var(--muted)}
+  .chain .step{padding:6px 0;border-bottom:1px dashed var(--border)}
+  .chain .step:last-child{border-bottom:none}
+  .chain .num{color:var(--text);font-family:'SF Mono',Menlo,monospace;font-weight:600}
+  .chain .arrow{color:var(--dim);font-size:11px;margin:0 6px}
 
-  /* === Comparison === */
-  .compare {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 18px; margin-top: 36px;
-  }
-  @media (max-width: 700px) { .compare { grid-template-columns: 1fr; } }
-  .compare .card-glass { text-align: center; padding: 22px; }
-  .compare .card-glass.tria { border-color: rgba(0, 212, 247, 0.4); background: linear-gradient(180deg, rgba(0, 212, 247, 0.06) 0%, transparent 100%); }
-  .compare .card-glass.ether { border-color: rgba(167, 139, 250, 0.3); }
-  .compare .who {
-    font-size: 10px; text-transform: uppercase; letter-spacing: 0.18em;
-    color: var(--fg-mute); margin-bottom: 6px;
-  }
-  .compare .amt {
-    font: 800 28px 'JetBrains Mono', monospace; margin: 4px 0;
-  }
-  .compare .tria .amt { color: var(--primary); }
-  .compare .ether .amt { color: var(--fg-dim); }
-  .compare .delta {
-    font: 700 11px 'JetBrains Mono', monospace;
-    padding: 4px 10px; border-radius: 999px; display: inline-block;
-    margin-top: 8px;
-    background: rgba(52, 211, 153, 0.14); color: var(--positive);
-    border: 1px solid rgba(52, 211, 153, 0.3);
-  }
-  .compare .note { font-size: 11px; color: var(--fg-mute); margin-top: 8px; }
+  .stream.indirect{border-color:rgba(244,197,66,0.25)}
+  .stream.indirect .stream-result{color:var(--gold)}
 
-  /* === Highlights section === */
-  .highlights {
-    margin-top: 96px;
-    padding-top: 60px;
-    border-top: 1px solid var(--border);
+  .totals{
+    display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px
   }
-  .hl-grid {
-    display: grid; grid-template-columns: repeat(2, 1fr);
-    gap: 16px; margin-top: 28px;
+  .total{
+    background:linear-gradient(180deg,var(--accent-soft) 0%,transparent 100%);
+    border:1px solid var(--accent);border-radius:12px;padding:18px
   }
-  @media (max-width: 800px) { .hl-grid { grid-template-columns: 1fr; } }
-  .hl {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 12px; padding: 22px;
-  }
-  .hl.win { border-left: 3px solid var(--positive); }
-  .hl.moat { border-left: 3px solid var(--primary); }
-  .hl-tag {
-    display: inline-block; padding: 3px 9px; border-radius: 999px;
-    font: 700 10px 'Inter', sans-serif;
-    text-transform: uppercase; letter-spacing: 0.1em;
-    margin-bottom: 10px;
-  }
-  .hl-tag.advantage { background: rgba(52, 211, 153, 0.12); color: var(--positive); border: 1px solid rgba(52, 211, 153, 0.3); }
-  .hl-tag.moat { background: rgba(0, 212, 247, 0.12); color: var(--primary); border: 1px solid rgba(0, 212, 247, 0.3); }
-  .hl h3 { color: var(--fg); margin-bottom: 6px; font-size: 16px; }
-  .hl .formula-pill {
-    display: inline-block; font: 600 11px 'JetBrains Mono', monospace;
-    background: rgba(0,0,0,0.3); border: 1px solid var(--border);
-    border-radius: 6px; padding: 3px 8px; margin-top: 8px; color: var(--fg);
-  }
-  .hl-summary {
-    background: var(--bg-2); border: 1px solid var(--border);
-    border-radius: 12px; padding: 22px 24px; margin-top: 28px;
-    font-size: 13px;
-  }
-  .hl-summary strong { color: var(--fg); }
+  .total-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px}
+  .total-val{font-size:28px;font-weight:700;font-family:'SF Mono',Menlo,monospace}
 
-  .footnote {
-    font-size: 11px; color: var(--fg-mute);
-    border-top: 1px solid var(--border);
-    margin-top: 60px; padding-top: 20px;
+  .footnote{
+    margin-top:32px;font-size:12px;color:var(--dim);line-height:1.7
+  }
+  .footnote strong{color:var(--muted)}
+  .higher-hint{
+    margin-top:18px;padding:14px 18px;border-left:2px solid var(--gold);
+    background:rgba(244,197,66,0.04);border-radius:0 8px 8px 0;
+    font-size:13px;color:var(--muted)
   }
 </style>
 </head>
 <body>
-<div class="cosmos"></div>
 <div class="wrap">
 
-  <nav class="topnav">
-    <a href="index.html">← Comparison doc</a>
-    <a href="calculator.html" class="active">Earnings calculator</a>
-  </nav>
+<header>
+  <span class="eyebrow">For Ambassadors</span>
+  <h1>Tria Earnings Calculator</h1>
+  <p>Real Tria rates. Real math. Plug in your network and see exactly how the three revenue streams compound — every step of the chain is shown, nothing hidden behind a single output number.</p>
+</header>
 
-  <div class="eyebrow">Real Tria spec · Real numbers</div>
-  <h1>Earnings <span class="accent">calculator</span></h1>
-  <p class="lede">
-    Drag the sliders, see what you'd make. Every number below comes
-    directly from the locked tier specs — user-side
-    <code style="color:var(--fg)">tiers.md</code> and
-    ambassador-side <code style="color:var(--fg)">ambassador/tiers.md</code>.
-    No projected, marketing, or aspirational numbers are used.
-  </p>
+<div class="layout">
 
-  <div class="persona" id="persona">
-    <button data-p="user" class="active">User</button>
-    <button data-p="ambassador">Ambassador</button>
-  </div>
-
-  <div class="calc">
-    <!-- INPUTS -->
-    <div class="card-glass">
+  <!-- LEFT: INPUTS -->
+  <div>
+    <section class="panel">
       <h2>Your network</h2>
 
       <div class="field">
-        <label><span>Active direct referrals</span><span class="val" id="v-refs">10</span></label>
-        <input type="range" min="0" max="60" step="1" value="10" id="r-refs" />
-        <div class="sub">Referees who meet active criteria (≥$1 card spend or ≥$10K trade in 90d)</div>
+        <div class="field-head">
+          <label for="refs">Active referrals</label>
+          <span class="val" id="refs-val">10</span>
+        </div>
+        <input type="range" id="refs" min="0" max="100" value="10" step="1">
+        <div class="hint">Anyone in your network with at least $1 of card spend or $10K of trading volume in the last 90 days (depth 1 + depth 2).</div>
       </div>
 
       <div class="field">
-        <label><span>Avg monthly card spend per referral</span><span class="val" id="v-spend">$400</span></label>
-        <input type="range" min="0" max="3000" step="50" value="400" id="r-spend" />
-        <div class="sub">Average across all your active referrals</div>
+        <div class="field-head">
+          <label for="volume">Avg monthly trading volume per referral</label>
+          <span class="val" id="volume-val">$250,000</span>
+        </div>
+        <input type="range" id="volume" min="0" max="5000000" value="250000" step="10000">
+        <div class="hint">USD-equivalent perp/futures volume on Tria. Tria's taker fee is 0.05% of this number.</div>
       </div>
 
       <div class="field">
-        <label><span>Avg monthly futures fees per referral</span><span class="val" id="v-futures">$8</span></label>
-        <input type="range" min="0" max="200" step="2" value="8" id="r-futures" />
-        <div class="sub">Trading-fee revenue Tria collects per referral (~0.04% of volume)</div>
+        <div class="field-head">
+          <label for="spend">Avg monthly card spend per referral</label>
+          <span class="val" id="spend-val">$500</span>
+        </div>
+        <input type="range" id="spend" min="0" max="5000" value="500" step="25">
+        <div class="hint">USD-equivalent monthly spend on the Tria card.</div>
       </div>
 
       <div class="field">
-        <label><span>Avg card sale value per referral (one-time)</span><span class="val" id="v-sale">$50</span></label>
-        <input type="range" min="0" max="500" step="10" value="50" id="r-sale" />
-        <div class="sub">Plastic / metal card purchase. Card commission only after first non-zero spend</div>
+        <div class="field-head">
+          <label for="cardsale">Avg card sale (per new referral, one-time)</label>
+          <span class="val" id="cardsale-val">$0</span>
+        </div>
+        <input type="range" id="cardsale" min="0" max="200" value="0" step="5">
+        <div class="hint">Optional. One-time fee paid when a referral activates their card. Set to $0 if you only care about recurring revenue.</div>
       </div>
 
-      <div class="field" id="indirect-field" style="display:none;">
-        <label><span>Avg active indirect (2-hop) referrals</span><span class="val" id="v-indirect">15</span></label>
-        <input type="range" min="0" max="200" step="1" value="15" id="r-indirect" />
-        <div class="sub">Ambassador-only: 1-level indirect at fixed 10% / 0.05% / 5%</div>
+      <div class="field">
+        <div class="field-head">
+          <label for="subs">Sub-ambassadors you sponsored <em style="color:var(--dim);font-style:normal;font-size:11px">(optional)</em></label>
+          <span class="val" id="subs-val">0</span>
+        </div>
+        <input type="range" id="subs" min="0" max="20" value="0" step="1">
+        <div class="hint">Each sub-ambassador's downline pays you indirect commission at locked rates that don't decay with their tier. Assumes each sub mirrors a network the same size as yours.</div>
       </div>
-    </div>
+    </section>
+  </div>
 
-    <!-- OUTPUTS -->
-    <div class="card-glass">
-      <div class="tier-display" id="tier-display">
-        <div class="tier-badge" id="tier-badge">B1</div>
-        <div class="tier-info">
-          <div class="micro">Your tier</div>
-          <div class="name" id="tier-name">Bronze-1</div>
-          <div class="threshold" id="tier-threshold">0–2 active referrals</div>
+  <!-- RIGHT: TIER + STREAMS + TOTALS -->
+  <div>
+    <section class="panel">
+      <h2>Your current tier</h2>
+      <div class="tier-card">
+        <div class="tier-name" id="tier-name">Silver 1</div>
+        <div class="tier-range" id="tier-range">10–19 active referrals</div>
+        <div class="rates">
+          <div class="rate">
+            <div class="rate-label">Card sales</div>
+            <div class="rate-val" id="rate-sales">25%</div>
+          </div>
+          <div class="rate">
+            <div class="rate-label">Card spend</div>
+            <div class="rate-val" id="rate-spend">0.10%</div>
+          </div>
+          <div class="rate">
+            <div class="rate-label">Futures fee</div>
+            <div class="rate-val" id="rate-futures">8%</div>
+          </div>
+        </div>
+        <div class="ladder-mini" id="ladder-mini">
+          <div class="rung"></div><div class="rung"></div><div class="rung"></div><div class="rung"></div><div class="rung"></div>
         </div>
       </div>
 
-      <div class="total-row">
-        <div>
-          <div class="label">Estimated monthly earnings</div>
-          <div class="yr" id="yearly">≈ $0 / yr</div>
+      <h2 style="margin-top:24px">How your monthly earnings break down</h2>
+
+      <div class="stream" id="stream-futures">
+        <div class="stream-head">
+          <div class="stream-title">Futures commission</div>
+          <div class="stream-result" id="futures-result">$0</div>
         </div>
-        <div class="big" id="monthly">$0</div>
+        <div class="chain">
+          <div class="step"><span class="num" id="f-vol-per">$250K</span> volume per referral <span class="arrow">×</span> <span class="num" id="f-refs">10</span> referrals <span class="arrow">=</span> <span class="num" id="f-vol-total">$2.5M</span> total monthly volume</div>
+          <div class="step">Tria collects 0.05% taker fee <span class="arrow">=</span> <span class="num" id="f-fee">$1,250</span> in monthly futures fees</div>
+          <div class="step">You earn <span class="num" id="f-rate">8%</span> of that fee <span class="arrow">=</span> <span class="num" id="f-final">$100/mo</span></div>
+        </div>
       </div>
 
-      <div class="breakdown" id="breakdown">
-        <!-- streams injected by JS -->
+      <div class="stream" id="stream-spend">
+        <div class="stream-head">
+          <div class="stream-title">Card-spend commission</div>
+          <div class="stream-result" id="spend-result">$0</div>
+        </div>
+        <div class="chain">
+          <div class="step"><span class="num" id="s-per">$500</span> monthly card spend per referral <span class="arrow">×</span> <span class="num" id="s-refs">10</span> referrals <span class="arrow">=</span> <span class="num" id="s-total">$5,000</span> total monthly card spend</div>
+          <div class="step">You earn <span class="num" id="s-rate">0.10%</span> <span class="arrow">=</span> <span class="num" id="s-final">$5/mo</span></div>
+        </div>
       </div>
-    </div>
+
+      <div class="stream" id="stream-sales" style="display:none">
+        <div class="stream-head">
+          <div class="stream-title">Card-sale commission (per new referral)</div>
+          <div class="stream-result" id="sales-result">$0</div>
+        </div>
+        <div class="chain">
+          <div class="step"><span class="num" id="cs-per">$50</span> card sale <span class="arrow">×</span> <span class="num" id="cs-rate">25%</span> <span class="arrow">=</span> <span class="num" id="cs-final">$12.50 per new referral</span> (one-time)</div>
+        </div>
+      </div>
+
+      <div class="stream indirect" id="stream-indirect" style="display:none">
+        <div class="stream-head">
+          <div class="stream-title">Indirect commission (locked rates)</div>
+          <div class="stream-result" id="indirect-result">$0</div>
+        </div>
+        <div class="chain">
+          <div class="step"><span class="num" id="i-subs">0</span> sub-ambassadors <span class="arrow">×</span> equivalent downline production each</div>
+          <div class="step">You earn <span class="num">5%</span> of their futures fees + <span class="num">0.05%</span> of their card spend</div>
+          <div class="step">Total indirect: <span class="num" id="i-final">$0/mo</span></div>
+        </div>
+      </div>
+
+      <div class="totals">
+        <div class="total">
+          <div class="total-label">Monthly recurring</div>
+          <div class="total-val" id="total-monthly">$0</div>
+        </div>
+        <div class="total">
+          <div class="total-label">Annual run-rate</div>
+          <div class="total-val" id="total-annual">$0</div>
+        </div>
+      </div>
+
+      <div class="higher-hint">
+        These are the public ladder rates. There is a higher hierarchy above Gold — accessible by accelerated climb or direct invitation. Its terms are not published.
+      </div>
+    </section>
   </div>
+</div>
 
-  <!-- COMPARISON STRIP -->
-  <div class="compare">
-    <div class="card-glass tria">
-      <div class="who">With Tria</div>
-      <div class="amt" id="compare-tria">$0</div>
-      <div class="note">per month at your current tier · 3 commission streams</div>
-      <div class="delta" id="compare-delta">—</div>
-    </div>
-    <div class="card-glass ether">
-      <div class="who">With ether.fi (their max tier)</div>
-      <div class="amt" id="compare-ether">$0</div>
-      <div class="note">0.3% cashback on referee card spend only (Tier 4 = 500+ refs)</div>
-      <div class="delta" style="background:rgba(248,113,113,.12); color:var(--danger); border-color:rgba(248,113,113,.3);">cards only · no futures</div>
-    </div>
-  </div>
-
-  <p class="micro" style="margin-top:14px; max-width:760px;">
-    <strong style="color:var(--fg-dim)">How the ether.fi comparison is computed:</strong> ether.fi's published max
-    affiliate cashback is 0.3% on referee Cash card spend at Tier 4 (requires 500+ qualifying referrals).
-    We use that same 0.3% × your monthly per-referral spend × your active-referrals count. They have no
-    trading-fee stream and no per-card-sale commission, so those rows are zero on their side.
-  </p>
-
-  <!-- ============== LANDING PAGE HIGHLIGHTS ============== -->
-  <section class="highlights" id="highlights">
-    <div class="eyebrow">For the affiliate landing page</div>
-    <h1 style="font-size: 32px;">Why Tria beats <span class="accent">ether.fi</span></h1>
-    <p class="lede" style="margin-bottom: 18px;">
-      Headlines below are sourced from the locked Tria specs only — every
-      number is verifiable in <code style="color:var(--fg)">tiers.md</code> or
-      <code style="color:var(--fg)">ambassador/tiers.md</code>. Nothing aspirational,
-      nothing marketing-only. Use these as section heads / hero copy on the dedicated affiliate page.
-    </p>
-
-    <div class="hl-grid">
-
-      <div class="hl moat">
-        <span class="hl-tag moat">Structural moat</span>
-        <h3>Three commission streams, not one</h3>
-        <p>
-          Tria pays you on <strong style="color:var(--fg)">card sales</strong>,
-          <strong style="color:var(--fg)">card spend</strong>, AND
-          <strong style="color:var(--fg)">futures trading fees</strong>.
-          ether.fi pays on cashback-card spend only — no futures, no card-purchase commission.
-        </p>
-        <span class="formula-pill">Sources: spec rate tables (both)</span>
-      </div>
-
-      <div class="hl win">
-        <span class="hl-tag advantage">Real number</span>
-        <h3>Up to 30% / 0.25% / 15% at Gold</h3>
-        <p>
-          Top user-side tier pays <strong style="color:var(--fg)">30%</strong> on card sales,
-          <strong style="color:var(--fg)">0.25%</strong> of card transaction value, and
-          <strong style="color:var(--fg)">15%</strong> of futures fees. ether.fi tops out at
-          <strong style="color:var(--fg)">25%</strong> on physical card commission and
-          <strong style="color:var(--fg)">0.3%</strong> cashback on referee spend.
-        </p>
-        <span class="formula-pill">User Gold: 30% / 0.25% / 15% — locked</span>
-      </div>
-
-      <div class="hl moat">
-        <span class="hl-tag moat">Structural moat</span>
-        <h3>Indirect commission from day one</h3>
-        <p>
-          The moment you become an ambassador, you earn
-          <strong style="color:var(--fg)">10% card sales / 0.05% card spend / 5% futures</strong>
-          on 2-hop activity in your tree. ether.fi gates indirect (Tier-2 revshare)
-          behind <strong style="color:var(--fg)">50 lifetime + 10 quarterly</strong> qualifying referrals.
-        </p>
-        <span class="formula-pill">Ambassador indirect: 10% / 0.05% / 5%</span>
-      </div>
-
-      <div class="hl moat">
-        <span class="hl-tag moat">Structural moat</span>
-        <h3>Both chain shapes count</h3>
-        <p>
-          Ambassador indirect pays on
-          <code style="color:var(--fg)">ambassador → ambassador → user</code> AND
-          <code style="color:var(--fg)">ambassador → user → user</code>. That closes the
-          incentive gap most affiliate programs (including ether.fi's) leave open: you get paid
-          for recruiting <em>any</em> active user two hops down, not just for recruiting
-          other ambassadors.
-        </p>
-      </div>
-
-      <div class="hl win">
-        <span class="hl-tag advantage">Operational rigor</span>
-        <h3>Active-user definition is precise</h3>
-        <p>
-          A user is active if cumulative card spend ≥ <strong style="color:var(--fg)">$1</strong>
-          OR cumulative trading volume ≥ <strong style="color:var(--fg)">$10K</strong> in the
-          rolling <strong style="color:var(--fg)">90-day</strong> window. ether.fi's "qualified
-          referral" definition is vague ("Cash card activation + first $100 spend").
-        </p>
-        <span class="formula-pill">X_card $1 · X_trade $10K · N 90d</span>
-      </div>
-
-      <div class="hl win">
-        <span class="hl-tag advantage">No silent expiry</span>
-        <h3>Accrued balance held indefinitely</h3>
-        <p>
-          Earned commission never expires. If you're inactive,
-          you still see your balance — only conversion to on-chain claim is gated.
-          The instant you become active again, your full accumulated balance becomes claimable.
-        </p>
-      </div>
-
-      <div class="hl moat">
-        <span class="hl-tag moat">Structural moat</span>
-        <h3>Exclusive ambassador tiers — Platinum &amp; Diamond</h3>
-        <p>
-          Manually-granted tiers stack <strong style="color:var(--fg)">on top</strong> of the
-          standard ladder, with <strong style="color:var(--fg)">no depth cap on ambassador-to-ambassador hops</strong>.
-          A Diamond at the top of a 5-deep ambassador chain still earns on the leaf user's
-          transaction. ether.fi has no analog.
-        </p>
-        <span class="formula-pill">Platinum: card sales 25–35% · card spend 0.3% · futures 20–30%</span>
-      </div>
-
-      <div class="hl win">
-        <span class="hl-tag advantage">Anti-fraud built-in</span>
-        <h3>Card-stream first-transaction gate</h3>
-        <p>
-          Card commission only starts accruing after the referee makes their
-          <strong style="color:var(--fg)">first non-zero card transaction</strong>. Card issuance
-          alone produces zero commission — closes the issuance-cost-without-revenue exploit
-          loop.
-        </p>
-      </div>
-
-      <div class="hl win">
-        <span class="hl-tag advantage">Engineering discipline</span>
-        <h3>Atomic, idempotent, reconcilable</h3>
-        <p>
-          Every claim traces back to underlying transactions. Webhook replays don't double-pay.
-          Reversals are atomic. Merkle-claim payouts settle one of the smart-contract claim
-          pipeline. ether.fi's published comms don't address any of this.
-        </p>
-      </div>
-
-      <div class="hl win">
-        <span class="hl-tag advantage">Persona-aware</span>
-        <h3>Ambassadors bypass the claim-time gate</h3>
-        <p>
-          User-side claims require the claimant to themselves be active (it's a fair signal).
-          Ambassadors — who are typically promoters, not heavy daily users — bypass that gate
-          entirely. The system knows the persona difference and acts on it.
-        </p>
-      </div>
-
-      <div class="hl moat">
-        <span class="hl-tag moat">Structural moat</span>
-        <h3>Five rungs vs ether.fi's four</h3>
-        <p>
-          Bronze-1 → Bronze-2 → Silver-1 → Silver-2 → Gold gives ambassadors finer-grained
-          progression milestones — and a meaningful upgrade between 3 active referrals
-          (the first earned tier) and 30 active referrals (Gold).
-        </p>
-        <span class="formula-pill">Thresholds: 0–2 / 3–9 / 10–19 / 20–29 / 30+</span>
-      </div>
-
-      <div class="hl win">
-        <span class="hl-tag advantage">Smart cadence</span>
-        <h3>Immediate upgrades, nightly downgrades</h3>
-        <p>
-          You climb the moment you cross a threshold. You don't drop until 23:59:59 UTC after
-          a per-tier persistence window (configurable per tier) has elapsed. No "lost a sale
-          and instantly demoted" panic moments.
-        </p>
-      </div>
-
-    </div>
-
-    <div class="hl-summary">
-      <h3>The 30-second pitch</h3>
-      <p>
-        <strong>ether.fi pays you a small cashback on one product (cards).</strong>
-        Tria pays you on three (cards sold, cards used, futures traded), at higher rates,
-        with indirect commission unlocked from day one, on a five-rung ladder where you
-        can't be silently demoted, with engineering rigor (idempotent accrual, atomic reversal,
-        Merkle-claim payouts) ether.fi doesn't publish anywhere.
-      </p>
-      <p style="margin-bottom: 0;">
-        Use the calculator above for a side-by-side at any network size you want.
-      </p>
-    </div>
-  </section>
-
-  <div class="footnote">
-    <p style="margin:0">
-      Sources:
-      <a style="color:inherit" href="https://www.ether.fi/affiliates" target="_blank">ether.fi/affiliates</a> ·
-      Tria user-side <code>tiers.md</code> ·
-      Tria ambassador-side <code>ambassador/tiers.md</code>.
-    </p>
-    <p style="margin:8px 0 0">
-      Internal draft. All Tria rates are locked in spec. Numbers are not projections — they're the spec.
-      Calculator uses fixed indirect rates (10% / 0.05% / 5%) per ambassador spec for all 1-level indirect commission, regardless of standard-ladder tier.
-    </p>
-  </div>
+<div class="footnote">
+  <p><strong>How rates are applied (from spec):</strong></p>
+  <p>• <strong>Card sales %</strong> applies to the card-sale fee Tria collects when a referral activates a card.</p>
+  <p>• <strong>Card spend %</strong> applies to the referral's monthly card spend volume directly.</p>
+  <p>• <strong>Futures fee %</strong> applies to the Tria taker fee (0.05% of trading volume) — not to the volume itself.</p>
+  <p>• <strong>Indirect commission</strong> is paid to the ambassador exactly two hops upstream of the transacting user at locked rates of 10% / 0.05% / 5% — independent of that ambassador's own ladder tier.</p>
+  <p style="margin-top:10px">Tier thresholds, rates, and active-referral definition from the approved Season 3 ambassador-tiers spec. Calculator does not project the higher hierarchy above Gold.</p>
+</div>
 
 </div>
 
 <script>
-// ===== Tria spec data — locked in the spec files =====
-// User-side and Ambassador-side per-tier direct rates are identical at launch
-// (configured independently but matched rung-for-rung). Source: both tiers.md files.
-const TIERS = [
-  { id: 'b1', name: 'Bronze-1', short: 'B1', min: 0,  max: 2,  cardSales: 0.20, cardSpend: 0.000,  futures: 0.03, color: '#c07830' },
-  { id: 'b2', name: 'Bronze-2', short: 'B2', min: 3,  max: 9,  cardSales: 0.22, cardSpend: 0.0005, futures: 0.05, color: '#d69558' },
-  { id: 's1', name: 'Silver-1', short: 'S1', min: 10, max: 19, cardSales: 0.25, cardSpend: 0.0010, futures: 0.08, color: '#8b92a3' },
-  { id: 's2', name: 'Silver-2', short: 'S2', min: 20, max: 29, cardSales: 0.27, cardSpend: 0.0015, futures: 0.11, color: '#b4bcca' },
-  { id: 'gd', name: 'Gold',     short: 'G',  min: 30, max: Infinity, cardSales: 0.30, cardSpend: 0.0025, futures: 0.15, color: '#d4a017' },
-];
-
-// Ambassador-only indirect commission rates (fixed across all standard tiers).
-// Source: ambassador/tiers.md Journey 5.
-const INDIRECT = { cardSales: 0.10, cardSpend: 0.0005, futures: 0.05 };
-
-// ether.fi max-tier rate for comparison. Source: ether.fi/affiliates (Tier 4).
-const ETHER_MAX_CASHBACK = 0.003; // 0.3% of referee card spend
-
-function tierFor(refs) {
-  return TIERS.find(t => refs >= t.min && refs <= t.max) || TIERS[TIERS.length - 1];
-}
-
-function fmtMoney(n, dec = 0) {
-  if (!isFinite(n)) n = 0;
-  if (n >= 1_000_000) return '$' + (n / 1_000_000).toFixed(2).replace(/\.00$/, '') + 'M';
-  if (n >= 10_000)    return '$' + Math.round(n / 1000) + 'K';
-  if (n >= 1_000)     return '$' + (n / 1000).toFixed(1) + 'K';
-  return '$' + n.toFixed(dec).replace(/\.0$/, '');
-}
-
-function fmtSpend(n) {
-  if (n >= 1000) return '$' + (n/1000).toFixed(1).replace(/\.0$/, '') + 'K';
-  return '$' + Math.round(n);
-}
-
-function updateSliderFill(el) {
-  const min = +el.min, max = +el.max, v = +el.value;
-  el.style.setProperty('--p', ((v - min) / (max - min) * 100) + '%');
-}
-
-const persona = { value: 'user' };
-
-function compute() {
-  const refs = +document.getElementById('r-refs').value;
-  const spend = +document.getElementById('r-spend').value;
-  const futures = +document.getElementById('r-futures').value;
-  const sale = +document.getElementById('r-sale').value;
-  const indirect = +document.getElementById('r-indirect').value;
-
-  const tier = tierFor(refs);
-
-  // Direct commission streams (per-month earnings)
-  // Card sale = one-time amortized over 12 months → /12 to get monthly contribution.
-  const directCardSalesMonthly = (refs * sale * tier.cardSales) / 12;
-  const directCardSpendMonthly = refs * spend * tier.cardSpend;
-  const directFuturesMonthly   = refs * futures * tier.futures;
-  const directTotal = directCardSalesMonthly + directCardSpendMonthly + directFuturesMonthly;
-
-  // Indirect (ambassador only)
-  let indirectTotal = 0;
-  let indirectCardSalesMonthly = 0;
-  let indirectCardSpendMonthly = 0;
-  let indirectFuturesMonthly = 0;
-  if (persona.value === 'ambassador') {
-    indirectCardSalesMonthly = (indirect * sale * INDIRECT.cardSales) / 12;
-    indirectCardSpendMonthly = indirect * spend * INDIRECT.cardSpend;
-    indirectFuturesMonthly   = indirect * futures * INDIRECT.futures;
-    indirectTotal = indirectCardSalesMonthly + indirectCardSpendMonthly + indirectFuturesMonthly;
-  }
-
-  const monthly = directTotal + indirectTotal;
-  const yearly = monthly * 12;
-
-  // ===== Tier display =====
-  const badge = document.getElementById('tier-badge');
-  const tierColor = tier.color;
-  document.documentElement.style.setProperty('--tier-color', tierColor);
-  document.documentElement.style.setProperty('--tier-glow', tierColor + '55');
-  badge.textContent = tier.short;
-  badge.style.background = `linear-gradient(135deg, ${tierColor} 0%, rgba(0,0,0,0.5) 100%)`;
-  badge.style.borderColor = tierColor;
-  badge.style.boxShadow = `0 0 28px ${tierColor}66`;
-  document.getElementById('tier-name').textContent = tier.name;
-  document.getElementById('tier-name').style.color = tierColor;
-  document.getElementById('tier-threshold').textContent =
-    tier.max === Infinity
-      ? `${tier.min}+ active referrals`
-      : `${tier.min}–${tier.max} active referrals · earns at ${(tier.cardSales*100)|0}% / ${(tier.cardSpend*100).toFixed(2)}% / ${(tier.futures*100)|0}%`;
-
-  // ===== Big totals =====
-  document.getElementById('monthly').textContent = '$' + Math.round(monthly).toLocaleString();
-  document.getElementById('yearly').textContent  = '≈ $' + Math.round(yearly).toLocaleString() + ' / yr';
-
-  // ===== Breakdown =====
-  const bd = document.getElementById('breakdown');
-  const rows = [
-    { label: 'Card sales (one-time, ÷12)', rate: (tier.cardSales*100).toFixed(0) + '%', val: directCardSalesMonthly, color: '#fbbf24',
-      formula: `${refs} refs × $${sale}/sale × ${(tier.cardSales*100).toFixed(0)}% ÷ 12 mo` },
-    { label: 'Card spend', rate: (tier.cardSpend*100).toFixed(2) + '%', val: directCardSpendMonthly, color: '#34d399',
-      formula: `${refs} refs × ${fmtSpend(spend)}/mo × ${(tier.cardSpend*100).toFixed(2)}%` },
-    { label: 'Futures fees', rate: (tier.futures*100).toFixed(0) + '%', val: directFuturesMonthly, color: '#00d4f7',
-      formula: `${refs} refs × $${futures}/mo fees × ${(tier.futures*100).toFixed(0)}%` },
+  const TIERS = [
+    { id: 'b1', name: 'Bronze 1', min: 0,  max: 2,  cardSales: 0.20, cardSpend: 0.0000, futures: 0.03 },
+    { id: 'b2', name: 'Bronze 2', min: 3,  max: 9,  cardSales: 0.22, cardSpend: 0.0005, futures: 0.05 },
+    { id: 's1', name: 'Silver 1', min: 10, max: 19, cardSales: 0.25, cardSpend: 0.0010, futures: 0.08 },
+    { id: 's2', name: 'Silver 2', min: 20, max: 29, cardSales: 0.27, cardSpend: 0.0015, futures: 0.11 },
+    { id: 'gd', name: 'Gold',     min: 30, max: Infinity, cardSales: 0.30, cardSpend: 0.0025, futures: 0.15 },
   ];
-  if (persona.value === 'ambassador') {
-    rows.push({
-      label: 'Indirect — card sales (1-level)', rate: '10%', val: indirectCardSalesMonthly, color: '#a78bfa',
-      formula: `${indirect} indirect × $${sale}/sale × 10% ÷ 12 mo`,
+
+  const TRIA_FUTURES_FEE = 0.0005; // 0.05% taker fee on trading volume
+
+  const INDIRECT = {
+    cardSales: 0.10,   // 10% of card-sale fee
+    cardSpend: 0.0005, // 0.05% applied to card spend volume
+    futures:   0.05,   // 5% of futures fee
+  };
+
+  const $ = id => document.getElementById(id);
+
+  const fmt = (n) => {
+    if (n === 0) return '$0';
+    if (n < 1) return '$' + n.toFixed(2);
+    if (n < 1000) return '$' + n.toFixed(0);
+    if (n < 10000) return '$' + n.toLocaleString(undefined,{maximumFractionDigits:0});
+    if (n < 1000000) return '$' + (n/1000).toFixed(n<100000?1:0) + 'K';
+    return '$' + (n/1000000).toFixed(n<10000000?2:1) + 'M';
+  };
+  const fmtExact = (n) => '$' + Math.round(n).toLocaleString();
+  const fmtMo = (n) => {
+    if (n === 0) return '$0/mo';
+    if (n < 1) return '$' + n.toFixed(2) + '/mo';
+    return '$' + Math.round(n).toLocaleString() + '/mo';
+  };
+
+  const tierFor = (refs) => TIERS.find(t => refs >= t.min && refs <= t.max);
+
+  function update(){
+    const refs = parseInt($('refs').value, 10);
+    const volume = parseInt($('volume').value, 10);
+    const spend  = parseInt($('spend').value, 10);
+    const sale   = parseInt($('cardsale').value, 10);
+    const subs   = parseInt($('subs').value, 10);
+
+    $('refs-val').textContent = refs;
+    $('volume-val').textContent = '$' + volume.toLocaleString();
+    $('spend-val').textContent = '$' + spend.toLocaleString();
+    $('cardsale-val').textContent = '$' + sale.toLocaleString();
+    $('subs-val').textContent = subs;
+
+    const tier = tierFor(refs);
+
+    $('tier-name').textContent = tier.name;
+    $('tier-range').textContent = tier.max === Infinity
+      ? `${tier.min}+ active referrals`
+      : `${tier.min}–${tier.max} active referrals`;
+    $('rate-sales').textContent   = (tier.cardSales*100).toFixed(0) + '%';
+    $('rate-spend').textContent   = (tier.cardSpend*100).toFixed(2) + '%';
+    $('rate-futures').textContent = (tier.futures*100).toFixed(0) + '%';
+
+    const rungs = document.querySelectorAll('.rung');
+    rungs.forEach((r,i)=>{
+      r.classList.remove('active','current');
+      if (TIERS[i].id === tier.id) r.classList.add('current');
+      else if (TIERS[i].min < tier.min) r.classList.add('active');
     });
-    rows.push({
-      label: 'Indirect — card spend (1-level)', rate: '0.05%', val: indirectCardSpendMonthly, color: '#a78bfa',
-      formula: `${indirect} indirect × ${fmtSpend(spend)}/mo × 0.05%`,
-    });
-    rows.push({
-      label: 'Indirect — futures (1-level)', rate: '5%', val: indirectFuturesMonthly, color: '#a78bfa',
-      formula: `${indirect} indirect × $${futures}/mo fees × 5%`,
-    });
+
+    // FUTURES
+    const fVolTotal = refs * volume;
+    const fFee = fVolTotal * TRIA_FUTURES_FEE;
+    const fCommission = fFee * tier.futures;
+    $('f-vol-per').textContent = fmt(volume);
+    $('f-refs').textContent = refs;
+    $('f-vol-total').textContent = fmt(fVolTotal);
+    $('f-fee').textContent = fmtExact(fFee);
+    $('f-rate').textContent = (tier.futures*100).toFixed(0) + '%';
+    $('f-final').textContent = fmtMo(fCommission);
+    $('futures-result').textContent = fmtMo(fCommission);
+    $('futures-result').classList.toggle('zero', fCommission === 0);
+
+    // CARD SPEND
+    const sTotal = refs * spend;
+    const sCommission = sTotal * tier.cardSpend;
+    $('s-per').textContent = fmt(spend);
+    $('s-refs').textContent = refs;
+    $('s-total').textContent = fmt(sTotal);
+    $('s-rate').textContent = (tier.cardSpend*100).toFixed(2) + '%';
+    $('s-final').textContent = fmtMo(sCommission);
+    $('spend-result').textContent = fmtMo(sCommission);
+    $('spend-result').classList.toggle('zero', sCommission === 0);
+
+    // CARD SALES (only show when sale > 0)
+    const salesPerNew = sale * tier.cardSales;
+    if (sale > 0){
+      $('stream-sales').style.display = 'block';
+      $('cs-per').textContent = fmt(sale);
+      $('cs-rate').textContent = (tier.cardSales*100).toFixed(0) + '%';
+      $('cs-final').textContent = '$' + salesPerNew.toFixed(2) + ' per new referral';
+      $('sales-result').textContent = '$' + salesPerNew.toFixed(2) + '/ref';
+    } else {
+      $('stream-sales').style.display = 'none';
+    }
+
+    // INDIRECT (each sub mirrors your network)
+    const subFutureFees = refs * volume * TRIA_FUTURES_FEE; // per sub
+    const subSpend      = refs * spend;                      // per sub
+    const indirectFutures = subs * subFutureFees * INDIRECT.futures;
+    const indirectSpend   = subs * subSpend      * INDIRECT.cardSpend;
+    const indirectTotal   = indirectFutures + indirectSpend;
+    if (subs > 0){
+      $('stream-indirect').style.display = 'block';
+      $('i-subs').textContent = subs;
+      $('i-final').textContent = fmtMo(indirectTotal);
+      $('indirect-result').textContent = fmtMo(indirectTotal);
+    } else {
+      $('stream-indirect').style.display = 'none';
+    }
+
+    // TOTALS
+    const monthlyRecurring = fCommission + sCommission + indirectTotal;
+    const annual = monthlyRecurring * 12;
+    $('total-monthly').textContent = fmtExact(monthlyRecurring);
+    $('total-annual').textContent = fmtExact(annual);
   }
 
-  bd.innerHTML = rows.map(r => `
-    <div class="stream" style="--stream-color: ${r.color}">
-      <div class="lbl">
-        <span class="dot"></span>
-        <span>${r.label}</span>
-        <span class="rate">${r.rate}</span>
-      </div>
-      <div class="num">$${Math.round(r.val).toLocaleString()}<span class="per">/mo</span></div>
-      <div class="formula">${r.formula}</div>
-    </div>
-  `).join('');
-
-  // ===== Comparison =====
-  // ether.fi: 0.3% × monthly spend × refs (cards only; no futures, no card-purchase comm).
-  const etherMonthly = refs * spend * ETHER_MAX_CASHBACK;
-  document.getElementById('compare-tria').textContent = '$' + Math.round(monthly).toLocaleString();
-  document.getElementById('compare-ether').textContent = '$' + Math.round(etherMonthly).toLocaleString();
-  const multiplier = etherMonthly > 0 ? (monthly / etherMonthly) : 0;
-  document.getElementById('compare-delta').textContent =
-    multiplier > 1 ? `${multiplier.toFixed(1)}× ether.fi` : (monthly === 0 ? '—' : 'Tria pays more');
-}
-
-// ===== Bind sliders =====
-const fieldMap = {
-  'r-refs': 'v-refs',
-  'r-spend': 'v-spend',
-  'r-futures': 'v-futures',
-  'r-sale': 'v-sale',
-  'r-indirect': 'v-indirect',
-};
-Object.keys(fieldMap).forEach(id => {
-  const el = document.getElementById(id);
-  const out = document.getElementById(fieldMap[id]);
-  const format = (v) => {
-    if (id === 'r-refs' || id === 'r-indirect') return v;
-    return '$' + Number(v).toLocaleString();
-  };
-  const update = () => { out.textContent = format(el.value); updateSliderFill(el); compute(); };
-  el.addEventListener('input', update);
-  updateSliderFill(el);
-});
-
-// ===== Persona toggle =====
-document.querySelectorAll('#persona button').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('#persona button').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    persona.value = btn.dataset.p;
-    document.getElementById('indirect-field').style.display = persona.value === 'ambassador' ? 'block' : 'none';
-    compute();
+  ['refs','volume','spend','cardsale','subs'].forEach(id => {
+    $(id).addEventListener('input', update);
   });
-});
 
-compute();
+  update();
 </script>
+
 </body>
 </html>
