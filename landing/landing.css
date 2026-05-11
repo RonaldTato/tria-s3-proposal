@@ -1552,3 +1552,104 @@ footer .links { display: flex; gap: var(--space-4); }
 .reveal-2 { animation: fadeUp 0.7s 0.18s both cubic-bezier(0.2, 0.7, 0.2, 1); }
 .reveal-3 { animation: fadeUp 0.7s 0.32s both cubic-bezier(0.2, 0.7, 0.2, 1); }
 .reveal-4 { animation: fadeUp 0.7s 0.46s both cubic-bezier(0.2, 0.7, 0.2, 1); }
+
+/* ============================================================
+   MOBILE FIXES — overrides for ≤ 760px (then ≤ 420px polish)
+   Tuned against iPhone-class viewports (360 – 430 px wide).
+   ============================================================ */
+@media (max-width: 760px) {
+  /* Hero grid — the SVG's intrinsic viewBox (800×500) makes the world-map
+     act as min-content 800px wide. That stretches the implicit grid track
+     past the container and clips every text element. The fix has to land
+     on both the grid template AND the SVG itself, since min-width: 0 on
+     the wrapper doesn't propagate to the SVG's intrinsic sizing. */
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+    overflow-x: clip;
+  }
+  .hero > div { min-width: 0; max-width: 100%; }
+  .world-map,
+  .world-map svg { min-width: 0; max-width: 100%; }
+
+  /* H1 — let words wrap on narrow viewports.
+     Secondary cause: .h1-anim was inline-block, which grows to fit the
+     longest line. Switching to block lets the child words wrap naturally. */
+  .hero h1 {
+    font-size: clamp(2rem, 9vw, 2.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.028em;
+  }
+  .h1-anim { display: block; max-width: 100%; }
+  .h1-anim .word { white-space: normal; }
+  .h1-anim .word.accent-word { padding-right: 0.12em; }
+  /* The <br/> between line-1 and line-2 becomes redundant when both are
+     block; explicit margin keeps the spacing intentional. */
+  .h1-anim.line-2 { margin-top: 0.08em; }
+
+  .hero .sub { max-width: 100%; }
+  .hero .smaller { max-width: 100%; }
+
+  /* World map — shorter section and dramatically smaller centerpiece.
+     Previous: aspect-ratio 16/11 + 188px orb → orb was ~48% of viewport.
+     New: aspect-ratio 16/9 + ~120px orb → orb sits at ~31% of viewport. */
+  .world-map { aspect-ratio: 16 / 9; max-height: 280px; }
+  .world-map .center-tria { width: 120px; height: 120px; }
+  .world-map .center-tria::before { inset: -22px; }
+  .world-map .center-tria::after  { inset: -44px; }
+  .world-map .center-tria img { width: 58%; height: 58%; }
+
+  /* Top nav — pack brand + login + CTA into 360–390px viewports. */
+  .topnav-inner { padding-inline: var(--space-3); gap: var(--space-2); }
+  .topnav .brand { font-size: 12px; gap: 5px; }
+  .topnav .brand img { width: 22px; height: 22px; }
+  .topnav .brand .pipe { height: 12px; }
+  .topnav .nav-actions { gap: 6px; flex-shrink: 0; }
+  .topnav .nav-login,
+  .topnav .nav-cta {
+    font-size: 9.5px;
+    letter-spacing: 0.08em;
+    padding: 0.5em 0.7em;
+  }
+  .topnav .nav-login svg { width: 11px; height: 11px; }
+
+  /* Section labels — long titles like "Four reasons this isn't another
+     affiliate program" need explicit overflow-wrap to break cleanly. */
+  .section-label .title {
+    font-size: clamp(1.5rem, 5.6vw, 1.875rem);
+    line-height: 1.1;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+
+  /* Hero strip — keep the 2x2 grid tight on small screens */
+  .hero-strip { padding: var(--space-3) 0; }
+  .hero-strip-item .val { font-size: var(--text-lg); }
+}
+
+@media (max-width: 420px) {
+  /* Smallest phones — sacrifice the nav-login icon to reclaim ~20px,
+     drop the brand pipe + sub-label since the icon already brands well. */
+  .topnav .nav-login svg { display: none; }
+  .topnav .nav-login { padding: 0.5em 0.65em; }
+  .topnav .brand .pipe,
+  .topnav .brand .label-sub { display: none; }
+  /* Headline can shrink a notch more for the narrowest viewports. */
+  .hero h1 { font-size: clamp(1.8rem, 8.5vw, 2.25rem); }
+  /* Orb a touch smaller so the breathing room around it reads as intentional. */
+  .world-map .center-tria { width: 108px; height: 108px; }
+  .world-map .center-tria::before { inset: -18px; }
+  .world-map .center-tria::after  { inset: -38px; }
+  /* Kicker pill — "TRIA AMBASSADOR PROGRAM · BY INVITATION" is too long
+     for 360px viewports with white-space: nowrap. Tighten letter-spacing
+     and switch to flex-wrap so it can break across two lines when needed. */
+  .kicker {
+    white-space: normal;
+    letter-spacing: 0.10em;
+    padding: 0.4em 0.7em;
+    line-height: 1.4;
+    text-align: center;
+  }
+  /* Section-label caption that lives on the right side — let it wrap below
+     the title on the narrowest screens so it doesn't push the row wider. */
+  .section-label .caption { margin-left: 0; }
+}
