@@ -26,7 +26,7 @@
     line-height:1.5;min-height:100vh;
     padding:32px 16px;
   }
-  .wrap{max-width:1080px;margin:0 auto}
+  .wrap{max-width:1120px;margin:0 auto}
   header{margin-bottom:32px}
   header .eyebrow{
     display:inline-block;font-size:11px;font-weight:600;letter-spacing:0.12em;
@@ -34,10 +34,10 @@
     background:var(--accent-soft);padding:6px 12px;border-radius:999px;margin-bottom:16px
   }
   h1{font-size:34px;font-weight:700;letter-spacing:-0.02em;margin-bottom:8px}
-  header p{color:var(--muted);font-size:15px;max-width:640px}
+  header p{color:var(--muted);font-size:15px;max-width:680px}
 
-  .layout{display:grid;grid-template-columns:1fr 1.4fr;gap:24px}
-  @media (max-width:880px){.layout{grid-template-columns:1fr}}
+  .layout{display:grid;grid-template-columns:1fr 1.3fr;gap:24px}
+  @media (max-width:920px){.layout{grid-template-columns:1fr}}
 
   .panel{
     background:var(--panel);border:1px solid var(--border);border-radius:14px;
@@ -47,13 +47,31 @@
     font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
     color:var(--muted);margin-bottom:18px
   }
+  .panel h2.sub{margin-top:24px}
 
-  .field{margin-bottom:22px}
+  .field{margin-bottom:18px}
   .field:last-child{margin-bottom:0}
-  .field-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
-  .field label{font-size:14px;color:var(--text)}
+  .field-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:12px}
+  .field label{font-size:14px;color:var(--text);flex:1}
   .field .hint{font-size:11px;color:var(--dim);margin-top:6px}
-  .field .val{font-family:'SF Mono',Menlo,monospace;font-size:14px;color:var(--accent);font-weight:600}
+  .field .hint em{font-style:normal;color:var(--muted)}
+
+  .val-wrap{display:flex;align-items:center;gap:4px}
+  .val-wrap .prefix{color:var(--dim);font-family:'SF Mono',Menlo,monospace;font-size:13px}
+  .val-input{
+    background:rgba(255,77,109,0.06);border:1px solid transparent;
+    border-radius:6px;padding:4px 10px;
+    color:var(--accent);font-family:'SF Mono',Menlo,monospace;
+    font-size:14px;font-weight:600;
+    width:120px;text-align:right;outline:none;
+    transition:border-color 0.15s
+  }
+  .val-input:hover{border-color:var(--border-strong)}
+  .val-input:focus{border-color:var(--accent);background:rgba(255,77,109,0.10)}
+  .val-input::-webkit-outer-spin-button,
+  .val-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+  .val-input{-moz-appearance:textfield}
+
   .field input[type=range]{
     width:100%;height:4px;-webkit-appearance:none;appearance:none;
     background:var(--border);border-radius:999px;outline:none;cursor:pointer
@@ -67,6 +85,26 @@
     width:18px;height:18px;background:var(--accent);border-radius:50%;
     cursor:pointer;border:3px solid var(--bg);box-shadow:0 0 0 1px var(--accent)
   }
+
+  .card-row{
+    display:flex;align-items:center;gap:10px;padding:10px 0;
+    border-top:1px solid var(--border)
+  }
+  .card-row:first-of-type{border-top:none;padding-top:0}
+  .card-info{flex:1;display:flex;flex-direction:column;gap:2px}
+  .card-name{font-size:14px;font-weight:600}
+  .card-price{font-size:11px;color:var(--dim);font-family:'SF Mono',Menlo,monospace}
+  .card-count{
+    background:rgba(255,77,109,0.06);border:1px solid transparent;
+    border-radius:6px;padding:6px 10px;color:var(--accent);
+    font-family:'SF Mono',Menlo,monospace;font-size:14px;font-weight:600;
+    width:90px;text-align:right;outline:none;transition:border-color 0.15s
+  }
+  .card-count:hover{border-color:var(--border-strong)}
+  .card-count:focus{border-color:var(--accent);background:rgba(255,77,109,0.10)}
+  .card-count::-webkit-outer-spin-button,
+  .card-count::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+  .card-count{-moz-appearance:textfield}
 
   .tier-card{
     background:linear-gradient(180deg,var(--panel-2) 0%,var(--panel) 100%);
@@ -84,9 +122,7 @@
   .rate-val{font-size:18px;font-weight:700;font-family:'SF Mono',Menlo,monospace}
 
   .ladder-mini{margin-top:18px;display:flex;gap:4px}
-  .rung{
-    flex:1;height:6px;background:var(--border);border-radius:2px;transition:background 0.2s
-  }
+  .rung{flex:1;height:6px;background:var(--border);border-radius:2px;transition:background 0.2s}
   .rung.active{background:var(--accent)}
   .rung.current{background:var(--gold);box-shadow:0 0 8px var(--gold)}
 
@@ -104,13 +140,15 @@
   .chain .step:last-child{border-bottom:none}
   .chain .num{color:var(--text);font-family:'SF Mono',Menlo,monospace;font-weight:600}
   .chain .arrow{color:var(--dim);font-size:11px;margin:0 6px}
+  .chain .substep{padding:4px 0;color:var(--dim);font-size:12px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+  .chain .substep .right{color:var(--good);font-family:'SF Mono',Menlo,monospace}
+  .chain .total{padding-top:8px;margin-top:6px;border-top:1px solid var(--border);display:flex;justify-content:space-between}
+  .chain .total .right{color:var(--good);font-family:'SF Mono',Menlo,monospace;font-weight:600}
 
   .stream.indirect{border-color:rgba(244,197,66,0.25)}
   .stream.indirect .stream-result{color:var(--gold)}
 
-  .totals{
-    display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px
-  }
+  .totals{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
   .total{
     background:linear-gradient(180deg,var(--accent-soft) 0%,transparent 100%);
     border:1px solid var(--accent);border-radius:12px;padding:18px
@@ -118,9 +156,7 @@
   .total-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px}
   .total-val{font-size:28px;font-weight:700;font-family:'SF Mono',Menlo,monospace}
 
-  .footnote{
-    margin-top:32px;font-size:12px;color:var(--dim);line-height:1.7
-  }
+  .footnote{margin-top:32px;font-size:12px;color:var(--dim);line-height:1.7}
   .footnote strong{color:var(--muted)}
   .higher-hint{
     margin-top:18px;padding:14px 18px;border-left:2px solid var(--gold);
@@ -135,7 +171,7 @@
 <header>
   <span class="eyebrow">For Ambassadors</span>
   <h1>Tria Earnings Calculator</h1>
-  <p>Real Tria rates. Real math. Plug in your network and see exactly how the three revenue streams compound — every step of the chain is shown, nothing hidden behind a single output number.</p>
+  <p>Real Tria rates. Real math. Plug in your network and see exactly how the three revenue streams compound — every step of the chain is shown, every input is editable. Slide to explore or type any value for precise modeling.</p>
 </header>
 
 <div class="layout">
@@ -148,46 +184,63 @@
       <div class="field">
         <div class="field-head">
           <label for="refs">Active referrals</label>
-          <span class="val" id="refs-val">10</span>
+          <div class="val-wrap"><input type="number" class="val-input" id="refs-val" value="30" min="0"></div>
         </div>
-        <input type="range" id="refs" min="0" max="100" value="10" step="1">
-        <div class="hint">Anyone in your network with at least $1 of card spend or $10K of trading volume in the last 90 days (depth 1 + depth 2).</div>
+        <input type="range" id="refs" min="0" max="2000" value="30" step="1">
+        <div class="hint">Anyone in your network with ≥$1 card spend or ≥$10K trading volume in the last 90 days (depth 1 + depth 2). Type a number above to exceed the slider range.</div>
       </div>
 
       <div class="field">
         <div class="field-head">
-          <label for="volume">Avg monthly trading volume per referral</label>
-          <span class="val" id="volume-val">$250,000</span>
+          <label for="volume">Monthly trading volume per referral</label>
+          <div class="val-wrap"><span class="prefix">$</span><input type="number" class="val-input" id="volume-val" value="1000000" min="0" step="10000"></div>
         </div>
-        <input type="range" id="volume" min="0" max="5000000" value="250000" step="10000">
-        <div class="hint">USD-equivalent perp/futures volume on Tria. Tria's taker fee is 0.05% of this number.</div>
+        <input type="range" id="volume" min="0" max="10000000" value="1000000" step="25000">
+        <div class="hint">USD-equivalent perp/futures volume on Tria, per referral. Tria's taker fee is 0.05% of this number.</div>
       </div>
 
       <div class="field">
         <div class="field-head">
-          <label for="spend">Avg monthly card spend per referral</label>
-          <span class="val" id="spend-val">$500</span>
+          <label for="spend">Monthly card spend per referral</label>
+          <div class="val-wrap"><span class="prefix">$</span><input type="number" class="val-input" id="spend-val" value="500" min="0" step="50"></div>
         </div>
-        <input type="range" id="spend" min="0" max="5000" value="500" step="25">
-        <div class="hint">USD-equivalent monthly spend on the Tria card.</div>
+        <input type="range" id="spend" min="0" max="10000" value="500" step="50">
+        <div class="hint">USD-equivalent monthly spend per referral on the Tria card.</div>
       </div>
+
+      <h2 class="sub">Card sales per month <em style="color:var(--dim);font-style:normal;font-size:11px;text-transform:none;letter-spacing:0">(across your full network)</em></h2>
+
+      <div class="card-row">
+        <div class="card-info">
+          <div class="card-name">Virtual</div>
+          <div class="card-price">$20 per card</div>
+        </div>
+        <input type="number" class="card-count" id="card-virtual" value="0" min="0">
+      </div>
+      <div class="card-row">
+        <div class="card-info">
+          <div class="card-name">Signature</div>
+          <div class="card-price">$90 per card</div>
+        </div>
+        <input type="number" class="card-count" id="card-signature" value="0" min="0">
+      </div>
+      <div class="card-row">
+        <div class="card-info">
+          <div class="card-name">Premium</div>
+          <div class="card-price">$225 per card</div>
+        </div>
+        <input type="number" class="card-count" id="card-premium" value="0" min="0">
+      </div>
+
+      <h2 class="sub">Indirect commission <em style="color:var(--dim);font-style:normal;font-size:11px;text-transform:none;letter-spacing:0">(optional)</em></h2>
 
       <div class="field">
         <div class="field-head">
-          <label for="cardsale">Avg card sale (per new referral, one-time)</label>
-          <span class="val" id="cardsale-val">$0</span>
+          <label for="subs">Sub-ambassadors you sponsored</label>
+          <div class="val-wrap"><input type="number" class="val-input" id="subs-val" value="0" min="0"></div>
         </div>
-        <input type="range" id="cardsale" min="0" max="200" value="0" step="5">
-        <div class="hint">Optional. One-time fee paid when a referral activates their card. Set to $0 if you only care about recurring revenue.</div>
-      </div>
-
-      <div class="field">
-        <div class="field-head">
-          <label for="subs">Sub-ambassadors you sponsored <em style="color:var(--dim);font-style:normal;font-size:11px">(optional)</em></label>
-          <span class="val" id="subs-val">0</span>
-        </div>
-        <input type="range" id="subs" min="0" max="20" value="0" step="1">
-        <div class="hint">Each sub-ambassador's downline pays you indirect commission at locked rates that don't decay with their tier. Assumes each sub mirrors a network the same size as yours.</div>
+        <input type="range" id="subs" min="0" max="100" value="0" step="1">
+        <div class="hint">Each sub-ambassador's downline pays you indirect commission at <strong style="color:var(--gold)">locked rates 10% / 0.05% / 5%</strong> — independent of their tier. Calculator assumes each sub mirrors a network the same size as yours.</div>
       </div>
     </section>
   </div>
@@ -197,20 +250,20 @@
     <section class="panel">
       <h2>Your current tier</h2>
       <div class="tier-card">
-        <div class="tier-name" id="tier-name">Silver 1</div>
-        <div class="tier-range" id="tier-range">10–19 active referrals</div>
+        <div class="tier-name" id="tier-name">Gold</div>
+        <div class="tier-range" id="tier-range">30+ active referrals</div>
         <div class="rates">
           <div class="rate">
             <div class="rate-label">Card sales</div>
-            <div class="rate-val" id="rate-sales">25%</div>
+            <div class="rate-val" id="rate-sales">30%</div>
           </div>
           <div class="rate">
             <div class="rate-label">Card spend</div>
-            <div class="rate-val" id="rate-spend">0.10%</div>
+            <div class="rate-val" id="rate-spend">0.25%</div>
           </div>
           <div class="rate">
             <div class="rate-label">Futures fee</div>
-            <div class="rate-val" id="rate-futures">8%</div>
+            <div class="rate-val" id="rate-futures">15%</div>
           </div>
         </div>
         <div class="ladder-mini" id="ladder-mini">
@@ -218,50 +271,52 @@
         </div>
       </div>
 
-      <h2 style="margin-top:24px">How your monthly earnings break down</h2>
+      <h2 class="sub">How your monthly earnings break down</h2>
 
       <div class="stream" id="stream-futures">
         <div class="stream-head">
           <div class="stream-title">Futures commission</div>
-          <div class="stream-result" id="futures-result">$0</div>
+          <div class="stream-result" id="futures-result">$0/mo</div>
         </div>
         <div class="chain">
-          <div class="step"><span class="num" id="f-vol-per">$250K</span> volume per referral <span class="arrow">×</span> <span class="num" id="f-refs">10</span> referrals <span class="arrow">=</span> <span class="num" id="f-vol-total">$2.5M</span> total monthly volume</div>
-          <div class="step">Tria collects 0.05% taker fee <span class="arrow">=</span> <span class="num" id="f-fee">$1,250</span> in monthly futures fees</div>
-          <div class="step">You earn <span class="num" id="f-rate">8%</span> of that fee <span class="arrow">=</span> <span class="num" id="f-final">$100/mo</span></div>
+          <div class="step"><span class="num" id="f-vol-per">$1M</span> volume per ref <span class="arrow">×</span> <span class="num" id="f-refs">30</span> refs <span class="arrow">=</span> <span class="num" id="f-vol-total">$30M</span> total monthly volume</div>
+          <div class="step">Tria collects 0.05% taker fee <span class="arrow">=</span> <span class="num" id="f-fee">$15,000</span> in monthly futures fees</div>
+          <div class="step">You earn <span class="num" id="f-rate">15%</span> of that fee <span class="arrow">=</span> <span class="num" id="f-final">$2,250/mo</span></div>
         </div>
       </div>
 
       <div class="stream" id="stream-spend">
         <div class="stream-head">
           <div class="stream-title">Card-spend commission</div>
-          <div class="stream-result" id="spend-result">$0</div>
+          <div class="stream-result" id="spend-result">$0/mo</div>
         </div>
         <div class="chain">
-          <div class="step"><span class="num" id="s-per">$500</span> monthly card spend per referral <span class="arrow">×</span> <span class="num" id="s-refs">10</span> referrals <span class="arrow">=</span> <span class="num" id="s-total">$5,000</span> total monthly card spend</div>
-          <div class="step">You earn <span class="num" id="s-rate">0.10%</span> <span class="arrow">=</span> <span class="num" id="s-final">$5/mo</span></div>
+          <div class="step"><span class="num" id="s-per">$500</span> spend per ref <span class="arrow">×</span> <span class="num" id="s-refs">30</span> refs <span class="arrow">=</span> <span class="num" id="s-total">$15,000</span> total monthly card spend</div>
+          <div class="step">You earn <span class="num" id="s-rate">0.25%</span> <span class="arrow">=</span> <span class="num" id="s-final">$37.50/mo</span></div>
         </div>
       </div>
 
       <div class="stream" id="stream-sales" style="display:none">
         <div class="stream-head">
-          <div class="stream-title">Card-sale commission (per new referral)</div>
-          <div class="stream-result" id="sales-result">$0</div>
+          <div class="stream-title">Card-sale commission</div>
+          <div class="stream-result" id="sales-result">$0/mo</div>
         </div>
-        <div class="chain">
-          <div class="step"><span class="num" id="cs-per">$50</span> card sale <span class="arrow">×</span> <span class="num" id="cs-rate">25%</span> <span class="arrow">=</span> <span class="num" id="cs-final">$12.50 per new referral</span> (one-time)</div>
+        <div class="chain" id="sales-chain">
+          <!-- substeps injected by JS -->
         </div>
       </div>
 
       <div class="stream indirect" id="stream-indirect" style="display:none">
         <div class="stream-head">
           <div class="stream-title">Indirect commission (locked rates)</div>
-          <div class="stream-result" id="indirect-result">$0</div>
+          <div class="stream-result" id="indirect-result">$0/mo</div>
         </div>
         <div class="chain">
-          <div class="step"><span class="num" id="i-subs">0</span> sub-ambassadors <span class="arrow">×</span> equivalent downline production each</div>
-          <div class="step">You earn <span class="num">5%</span> of their futures fees + <span class="num">0.05%</span> of their card spend</div>
-          <div class="step">Total indirect: <span class="num" id="i-final">$0/mo</span></div>
+          <div class="step"><span class="num" id="i-subs">0</span> sub-ambassadors <span class="arrow">×</span> equivalent downline production</div>
+          <div class="substep"><span>10% of their card-sale fees</span><span class="right" id="i-sales">$0</span></div>
+          <div class="substep"><span>0.05% of their card spend</span><span class="right" id="i-spend">$0</span></div>
+          <div class="substep"><span>5% of their futures fees</span><span class="right" id="i-futures">$0</span></div>
+          <div class="total"><span>Total indirect</span><span class="right" id="i-final">$0/mo</span></div>
         </div>
       </div>
 
@@ -285,7 +340,7 @@
 
 <div class="footnote">
   <p><strong>How rates are applied (from spec):</strong></p>
-  <p>• <strong>Card sales %</strong> applies to the card-sale fee Tria collects when a referral activates a card.</p>
+  <p>• <strong>Card sales %</strong> applies to each card's sale price ($20 Virtual / $90 Signature / $225 Premium).</p>
   <p>• <strong>Card spend %</strong> applies to the referral's monthly card spend volume directly.</p>
   <p>• <strong>Futures fee %</strong> applies to the Tria taker fee (0.05% of trading volume) — not to the volume itself.</p>
   <p>• <strong>Indirect commission</strong> is paid to the ambassador exactly two hops upstream of the transacting user at locked rates of 10% / 0.05% / 5% — independent of that ambassador's own ladder tier.</p>
@@ -303,23 +358,31 @@
     { id: 'gd', name: 'Gold',     min: 30, max: Infinity, cardSales: 0.30, cardSpend: 0.0025, futures: 0.15 },
   ];
 
+  const CARDS = [
+    { id: 'virtual',   name: 'Virtual',   price: 20  },
+    { id: 'signature', name: 'Signature', price: 90  },
+    { id: 'premium',   name: 'Premium',   price: 225 },
+  ];
+
   const TRIA_FUTURES_FEE = 0.0005; // 0.05% taker fee on trading volume
 
   const INDIRECT = {
-    cardSales: 0.10,   // 10% of card-sale fee
+    cardSales: 0.10,   // 10% of card-sale fees
     cardSpend: 0.0005, // 0.05% applied to card spend volume
-    futures:   0.05,   // 5% of futures fee
+    futures:   0.05,   // 5% of futures fees
   };
 
   const $ = id => document.getElementById(id);
 
-  const fmt = (n) => {
+  // Formatting helpers
+  const fmtCompact = (n) => {
     if (n === 0) return '$0';
     if (n < 1) return '$' + n.toFixed(2);
     if (n < 1000) return '$' + n.toFixed(0);
     if (n < 10000) return '$' + n.toLocaleString(undefined,{maximumFractionDigits:0});
     if (n < 1000000) return '$' + (n/1000).toFixed(n<100000?1:0) + 'K';
-    return '$' + (n/1000000).toFixed(n<10000000?2:1) + 'M';
+    if (n < 1000000000) return '$' + (n/1000000).toFixed(n<10000000?2:1) + 'M';
+    return '$' + (n/1000000000).toFixed(2) + 'B';
   };
   const fmtExact = (n) => '$' + Math.round(n).toLocaleString();
   const fmtMo = (n) => {
@@ -330,21 +393,49 @@
 
   const tierFor = (refs) => TIERS.find(t => refs >= t.min && refs <= t.max);
 
-  function update(){
-    const refs = parseInt($('refs').value, 10);
-    const volume = parseInt($('volume').value, 10);
-    const spend  = parseInt($('spend').value, 10);
-    const sale   = parseInt($('cardsale').value, 10);
-    const subs   = parseInt($('subs').value, 10);
+  // Slider <-> Number input sync helpers
+  function bindPair(sliderId, inputId){
+    const slider = $(sliderId);
+    const input  = $(inputId);
+    slider.addEventListener('input', () => {
+      input.value = slider.value;
+      update();
+    });
+    input.addEventListener('input', () => {
+      const v = parseInt(input.value, 10) || 0;
+      const max = parseInt(slider.max, 10);
+      slider.value = v > max ? max : v;
+      update();
+    });
+  }
 
-    $('refs-val').textContent = refs;
-    $('volume-val').textContent = '$' + volume.toLocaleString();
-    $('spend-val').textContent = '$' + spend.toLocaleString();
-    $('cardsale-val').textContent = '$' + sale.toLocaleString();
-    $('subs-val').textContent = subs;
+  bindPair('refs',   'refs-val');
+  bindPair('volume', 'volume-val');
+  bindPair('spend',  'spend-val');
+  bindPair('subs',   'subs-val');
+
+  // Card-count inputs (no slider)
+  CARDS.forEach(c => {
+    $('card-' + c.id).addEventListener('input', update);
+  });
+
+  function getCardCounts(){
+    return CARDS.map(c => ({
+      ...c,
+      count: parseInt($('card-' + c.id).value, 10) || 0,
+    }));
+  }
+
+  function update(){
+    const refs   = parseInt($('refs-val').value,   10) || 0;
+    const volume = parseInt($('volume-val').value, 10) || 0;
+    const spend  = parseInt($('spend-val').value,  10) || 0;
+    const subs   = parseInt($('subs-val').value,   10) || 0;
+    const cards  = getCardCounts();
 
     const tier = tierFor(refs);
 
+    // Tier card
     $('tier-name').textContent = tier.name;
     $('tier-range').textContent = tier.max === Infinity
       ? `${tier.min}+ active referrals`
@@ -364,9 +455,9 @@
     const fVolTotal = refs * volume;
     const fFee = fVolTotal * TRIA_FUTURES_FEE;
     const fCommission = fFee * tier.futures;
-    $('f-vol-per').textContent = fmt(volume);
-    $('f-refs').textContent = refs;
-    $('f-vol-total').textContent = fmt(fVolTotal);
+    $('f-vol-per').textContent = fmtCompact(volume);
+    $('f-refs').textContent = refs.toLocaleString();
+    $('f-vol-total').textContent = fmtCompact(fVolTotal);
     $('f-fee').textContent = fmtExact(fFee);
     $('f-rate').textContent = (tier.futures*100).toFixed(0) + '%';
     $('f-final').textContent = fmtMo(fCommission);
@@ -376,51 +467,70 @@
     // CARD SPEND
     const sTotal = refs * spend;
     const sCommission = sTotal * tier.cardSpend;
-    $('s-per').textContent = fmt(spend);
-    $('s-refs').textContent = refs;
-    $('s-total').textContent = fmt(sTotal);
+    $('s-per').textContent = fmtCompact(spend);
+    $('s-refs').textContent = refs.toLocaleString();
+    $('s-total').textContent = fmtCompact(sTotal);
     $('s-rate').textContent = (tier.cardSpend*100).toFixed(2) + '%';
     $('s-final').textContent = fmtMo(sCommission);
     $('spend-result').textContent = fmtMo(sCommission);
     $('spend-result').classList.toggle('zero', sCommission === 0);
 
-    // CARD SALES (only show when sale > 0)
-    const salesPerNew = sale * tier.cardSales;
-    if (sale > 0){
+    // CARD SALES (per product)
+    let cardSalesGross = 0;
+    let cardSalesCommission = 0;
+    const activeCards = cards.filter(c => c.count > 0);
+    if (activeCards.length > 0){
       $('stream-sales').style.display = 'block';
-      $('cs-per').textContent = fmt(sale);
-      $('cs-rate').textContent = (tier.cardSales*100).toFixed(0) + '%';
-      $('cs-final').textContent = '$' + salesPerNew.toFixed(2) + ' per new referral';
-      $('sales-result').textContent = '$' + salesPerNew.toFixed(2) + '/ref';
+      const chain = $('sales-chain');
+      chain.innerHTML = '';
+      activeCards.forEach(c => {
+        const gross = c.count * c.price;
+        const commission = gross * tier.cardSales;
+        cardSalesGross += gross;
+        cardSalesCommission += commission;
+        const step = document.createElement('div');
+        step.className = 'substep';
+        step.innerHTML =
+          `<span><span class="num" style="color:var(--text)">${c.count}</span> ${c.name} × $${c.price} = <span class="num" style="color:var(--text)">${fmtExact(gross)}</span> × ${(tier.cardSales*100).toFixed(0)}%</span>` +
+          `<span class="right">${fmtMo(commission)}</span>`;
+        chain.appendChild(step);
+      });
+      const totalDiv = document.createElement('div');
+      totalDiv.className = 'total';
+      totalDiv.innerHTML = `<span>Total card sales</span><span class="right">${fmtMo(cardSalesCommission)}</span>`;
+      chain.appendChild(totalDiv);
+      $('sales-result').textContent = fmtMo(cardSalesCommission);
+      $('sales-result').classList.toggle('zero', cardSalesCommission === 0);
     } else {
       $('stream-sales').style.display = 'none';
     }
 
-    // INDIRECT (each sub mirrors your network)
-    const subFutureFees = refs * volume * TRIA_FUTURES_FEE; // per sub
-    const subSpend      = refs * spend;                      // per sub
-    const indirectFutures = subs * subFutureFees * INDIRECT.futures;
-    const indirectSpend   = subs * subSpend      * INDIRECT.cardSpend;
-    const indirectTotal   = indirectFutures + indirectSpend;
+    // INDIRECT (each sub mirrors your network: same refs, same vol, same spend, same card sales)
+    const subFuturesFees = refs * volume * TRIA_FUTURES_FEE;
+    const subSpendVol    = refs * spend;
+    const subCardSalesGross = cardSalesGross; // sub's network sells same product mix per month
+    const iFutures = subs * subFuturesFees    * INDIRECT.futures;
+    const iSpend   = subs * subSpendVol       * INDIRECT.cardSpend;
+    const iSales   = subs * subCardSalesGross * INDIRECT.cardSales;
+    const indirectTotal = iFutures + iSpend + iSales;
     if (subs > 0){
       $('stream-indirect').style.display = 'block';
       $('i-subs').textContent = subs;
-      $('i-final').textContent = fmtMo(indirectTotal);
+      $('i-sales').textContent   = fmtMo(iSales);
+      $('i-spend').textContent   = fmtMo(iSpend);
+      $('i-futures').textContent = fmtMo(iFutures);
+      $('i-final').textContent   = fmtMo(indirectTotal);
       $('indirect-result').textContent = fmtMo(indirectTotal);
     } else {
       $('stream-indirect').style.display = 'none';
     }
 
     // TOTALS
-    const monthlyRecurring = fCommission + sCommission + indirectTotal;
+    const monthlyRecurring = fCommission + sCommission + cardSalesCommission + indirectTotal;
     const annual = monthlyRecurring * 12;
     $('total-monthly').textContent = fmtExact(monthlyRecurring);
     $('total-annual').textContent = fmtExact(annual);
   }
-
-  ['refs','volume','spend','cardsale','subs'].forEach(id => {
-    $(id).addEventListener('input', update);
-  });
 
   update();
 </script>
