@@ -8,9 +8,9 @@
 
 ## 1. Purpose
 
-A public-facing earnings projection tool for ambassadors. The visitor manipulates **one input** (active referrals); the calculator shows **three projection bands** (Conservative / Average / High) for 12-month rewards.
+A public-facing earnings projection tool for ambassadors. The visitor manipulates **one input** (active referrals); the calculator shows **two projection bands** for 12-month rewards: **Average Pusher** (the featured headline number) and **High Pusher** (the upper bound for a mature, high-volume network).
 
-This is deliberately less detailed than an internal commission simulator. The public surface should not require the visitor to know their network's trading volume, card-product mix, or card-spend distribution — all of that is baked into the three bands.
+This is deliberately less detailed than an internal commission simulator. The public surface should not require the visitor to know their network's trading volume, card-product mix, or card-spend distribution — all of that is baked into the two bands. There is no "Conservative" projection on purpose: the audience for this page is operators who already move volume, not casual users.
 
 ---
 
@@ -24,7 +24,7 @@ This is deliberately less detailed than an internal commission simulator. The pu
 
 **Outputs:**
 - Headline annual reward (Average band × 12)
-- Three band totals (annual): Conservative / Average / High
+- Two band totals (annual): Average Pusher (featured) / High Pusher
 - Stream breakdown for the Average band (3 rows: Futures / Card-spend / Card-sale with %)
 - Tier badge
 
@@ -55,15 +55,16 @@ This is deliberately less detailed than an internal commission simulator. The pu
 
 ### 3.3 Per-referral assumptions by band
 
-Each band represents a different per-referral activity profile. All amounts are **per referral**.
+The calculator shows TWO projection bands — both assume the referral is actively engaged on Tria (no "casual user" floor). All amounts are **per referral**.
 
 | Band | Trading volume / month | Card spend / month | Card-sale activity / year |
 |---|---:|---:|---:|
-| Conservative | $25,000 | $50 | $20 |
-| Average | $250,000 | $500 | $70 |
-| High | $1,000,000 | $1,500 | $200 |
+| **Average Pusher** | $500,000 | $1,000 | $100 |
+| **High Pusher** | $2,000,000 | $3,000 | $300 |
 
-**Rationale for `cardActivityAnnual`:** This number absorbs the product mix (Virtual $20 / Signature $90 / Premium $225) into one annual gross figure per referral. Conservative ≈ one Virtual card per ref/year + occasional reactivation. Average ≈ one Signature per ref/year + extras. High ≈ one Premium per ref/year + upgrades.
+**Rationale for `cardActivityAnnual`:** This number absorbs the product mix (Virtual $20 / Signature $90 / Premium $225) into one annual gross figure per referral. Average Pusher ≈ one Signature card per ref/year + occasional Premium. High Pusher ≈ Premium-heavy mix with regular reactivations.
+
+**Why the rename to "Pusher":** "Average" and "High" suggested a range from casual to power user. The audience for this page (KOLs, MLM veterans, trading community leaders) doesn't operate at the casual end — their networks push real volume by default. "Average Pusher" reads as the realistic floor for a network that's actually moving; "High Pusher" is the same network with mature engagement. There is no "conservative" projection because the program is not built for conservative networks.
 
 ### 3.4 Indirect commission (not in calculator math; FAQ-only)
 
@@ -140,10 +141,10 @@ That's the entire math.
 | 1 | Hero | Eyebrow "For Ambassadors" / headline "How much can you earn?" / sub explaining the three-band model |
 | 2 | Slider row | `[Big number] active referrals` on left · `[Tier pill]` on right · slider below · tick marks underneath |
 | 3 | Headline | Label "Projected 12-month rewards · Average" · large gradient number · sub "USDC / USDT, claimable in-app · paid in stablecoin" |
-| 4 | Three bands | Side-by-side cards: Conservative · Average (featured/emphasized) · High · each shows annual total + monthly equivalent |
+| 4 | Two bands | Side-by-side cards: Average Pusher (featured/emphasized) · High Pusher · each shows annual total + monthly equivalent. Collapses to single column at ≤560px viewport. |
 | 5 | Breakdown | Single panel showing where the Average band comes from: Futures fees / Card spend / Card sales, each with % of total |
 | 6 | Higher-hierarchy callout | Single sentence, no specifics: "There is a higher hierarchy above Gold — accessible by accelerated climb or direct invitation. Its terms are not published." |
-| 7 | FAQ disclosures | Three collapsible items: "What's Conservative / Average / High?" + "What about sponsoring sub-ambassadors?" + "How are rates applied?" |
+| 7 | FAQ disclosures | Three collapsible items: "What's Average Pusher vs High Pusher?" + "What about sponsoring sub-ambassadors?" + "How are rates applied?" |
 | 8 | Footnote | Disclaimer: estimates based on per-referral assumptions, actual results vary |
 
 ---
@@ -167,20 +168,20 @@ That's the entire math.
 
 The implementation should produce these exact numbers at the listed inputs:
 
-| Active refs | Tier | Conservative (12mo) | Average (12mo) | High (12mo) |
-|---:|---|---:|---:|---:|
-| 0 | Bronze 1 | $0 | $0 | $0 |
-| 5 | Bronze 2 | $61 | $467 | $1,765 |
-| 15 | Silver 1 | $264 | $2,153 | $8,220 |
-| 25 | Silver 2 | $570 | $4,823 | $18,525 |
-| 30 | Gold | $900 | $7,830 | $30,150 |
-| 100 | Gold | $3,000 | $26,100 | $100,500 |
-| 250 | Gold | $7,500 | $65,250 | $251,250 |
-| 500 | Gold | $15,000 | $130,500 | $502,500 |
+| Active refs | Tier | Average Pusher (12mo) | High Pusher (12mo) |
+|---:|---|---:|---:|
+| 0 | Bronze 1 | $0 | $0 |
+| 5 | Bronze 2 | $890 | $3,420 |
+| 15 | Silver 1 | $4,155 | $16,065 |
+| 25 | Silver 2 | $9,375 | $36,375 |
+| 30 | Gold | $15,300 | $59,400 |
+| 100 | Gold | $51,000 | $198,000 |
+| 250 | Gold | $127,500 | $495,000 |
+| 500 | Gold | $255,000 | $990,000 |
 
 If the rebuild produces these numbers ± rounding, the math is correct.
 
-Note the **jump from Silver 2 → Gold at 30 refs**: Conservative goes from ~$570 → $900, Average from ~$4,823 → $7,830, High from ~$18,525 → $30,150. The rate uplift across all three streams at the Gold threshold is significant — design should make the tier badge visibly upgrade when crossing 30.
+Note the **jump from Silver 2 → Gold at 30 refs**: Average Pusher goes from ~$9,375 → $15,300, High Pusher from ~$36,375 → $59,400. The rate uplift across all three streams at the Gold threshold is significant — design should make the tier badge visibly upgrade when crossing 30.
 
 ---
 
@@ -200,7 +201,7 @@ Note the **jump from Silver 2 → Gold at 30 refs**: Conservative goes from ~$57
 ### Hero
 - Eyebrow: `For Ambassadors`
 - H1: `How much can you earn?`
-- Sub: `One slider. Three projections built from real Tria rates. Modeled on per-referral activity — three bands let you see the floor, the median, and the ceiling without modeling product-level detail.`
+- Sub: `One slider. Two projections built from real Tria rates. Modeled on per-referral activity — both bands assume an active, engaged network. Average Pusher is the realistic floor for a network that actually moves; High Pusher is the same network with mature engagement.`
 
 ### Headline
 - Label: `Projected 12-month rewards · Average`
@@ -210,7 +211,7 @@ Note the **jump from Silver 2 → Gold at 30 refs**: Conservative goes from ~$57
 > These are the public ladder rates, capped at Gold. There is a higher hierarchy above it — accessible by accelerated climb or direct invitation. Its terms are not published.
 
 ### FAQ disclosures
-1. **What's Conservative / Average / High?** — show per-band assumptions table + one paragraph on which network shape maps to which band.
+1. **What's Average Pusher vs High Pusher?** — show per-band assumptions table + one paragraph on which network shape maps to which band. Explicitly call out that there is no "conservative" projection — the program is built for operators who move volume.
 2. **What about sponsoring sub-ambassadors?** — explain indirect commission (10% / 0.05% / 5%), say it compounds on top of the slider math, roughly 2× annual run-rate per 5 subs.
 3. **How are rates applied?** — short explainer per stream: card sales % × card price · card spend % × spend volume · futures % × Tria taker fee (0.05% × volume).
 
@@ -226,6 +227,6 @@ Note the **jump from Silver 2 → Gold at 30 refs**: Conservative goes from ~$57
 - Three band cards in a row; emphasize the Average card with a glowing border or soft fill
 - Tier pill in muted gold; the slider thumb in pink
 - Sliders ≠ scroll-jacked; keep tick marks legible
-- Mobile: stack the three bands vertically when viewport < 600px
+- Mobile: stack the two bands vertically when viewport < 560px
 
 End of spec.

@@ -110,7 +110,10 @@
 
   /* Bands */
   .bands{
-    display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px
+    display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:28px
+  }
+  @media (max-width:560px){
+    .bands{ grid-template-columns:1fr }
   }
   .band{
     background:var(--panel-2);border:1px solid var(--border);border-radius:12px;
@@ -186,7 +189,7 @@
 <header>
   <span class="eyebrow">For Ambassadors</span>
   <h1>How much can you earn?</h1>
-  <p>One slider. Three projections built from real Tria rates. Modeled on per-referral activity — three bands let you see the floor, the median, and the ceiling without modeling product-level detail.</p>
+  <p>One slider. Two projections built from real Tria rates. Both bands assume an active network — Average Pusher is the realistic floor for a network that actually moves volume, High Pusher is the same network at mature operating velocity.</p>
 </header>
 
 <section class="panel">
@@ -218,44 +221,39 @@
 
   <!-- HEADLINE -->
   <div class="headline">
-    <div class="headline-label">Projected 12-month rewards · Average</div>
-    <div class="headline-value" id="headline-value">$7,830</div>
+    <div class="headline-label">Projected 12-month rewards · Average Pusher</div>
+    <div class="headline-value" id="headline-value">$15,300</div>
     <div class="headline-sub">USDC / USDT, claimable in-app · paid in stablecoin</div>
   </div>
 
-  <!-- THREE BANDS -->
+  <!-- TWO BANDS -->
   <div class="bands">
-    <div class="band">
-      <div class="band-label">Conservative</div>
-      <div class="band-value" id="band-conservative">$900</div>
-      <div class="band-monthly" id="band-conservative-mo">~$75 / mo</div>
-    </div>
     <div class="band featured">
-      <div class="band-label">Average</div>
-      <div class="band-value" id="band-average">$7,830</div>
-      <div class="band-monthly" id="band-average-mo">~$653 / mo</div>
+      <div class="band-label">Average Pusher</div>
+      <div class="band-value" id="band-average">$15,300</div>
+      <div class="band-monthly" id="band-average-mo">~$1,275 / mo</div>
     </div>
     <div class="band">
-      <div class="band-label">High</div>
-      <div class="band-value" id="band-high">$30,150</div>
-      <div class="band-monthly" id="band-high-mo">~$2,513 / mo</div>
+      <div class="band-label">High Pusher</div>
+      <div class="band-value" id="band-high">$59,400</div>
+      <div class="band-monthly" id="band-high-mo">~$4,950 / mo</div>
     </div>
   </div>
 
-  <!-- BREAKDOWN (Average) -->
+  <!-- BREAKDOWN (Average Pusher) -->
   <div class="breakdown">
-    <div class="breakdown-title">Where the Average comes from (annual)</div>
+    <div class="breakdown-title">Where the Average Pusher number comes from (annual)</div>
     <div class="breakdown-row">
-      <div class="breakdown-label">Futures fee commission<span class="breakdown-pct" id="pct-futures">86%</span></div>
-      <div class="breakdown-value" id="row-futures">$6,750</div>
+      <div class="breakdown-label">Futures fee commission<span class="breakdown-pct" id="pct-futures">88%</span></div>
+      <div class="breakdown-value" id="row-futures">$13,500</div>
     </div>
     <div class="breakdown-row">
       <div class="breakdown-label">Card-spend commission<span class="breakdown-pct" id="pct-spend">6%</span></div>
-      <div class="breakdown-value" id="row-spend">$450</div>
+      <div class="breakdown-value" id="row-spend">$900</div>
     </div>
     <div class="breakdown-row">
-      <div class="breakdown-label">Card-sale commission<span class="breakdown-pct" id="pct-sales">8%</span></div>
-      <div class="breakdown-value" id="row-sales">$630</div>
+      <div class="breakdown-label">Card-sale commission<span class="breakdown-pct" id="pct-sales">6%</span></div>
+      <div class="breakdown-value" id="row-sales">$900</div>
     </div>
   </div>
 
@@ -266,16 +264,16 @@
 
   <!-- DISCLOSURES -->
   <details>
-    <summary>What's "Conservative / Average / High"?</summary>
+    <summary>What's "Average Pusher" vs "High Pusher"?</summary>
     <div class="body">
-      <p>Each band uses a different assumption about how active your <em>average</em> referral is on Tria. The math is identical across bands — only the per-referral activity input differs.</p>
+      <p>Both bands assume your network is active — these are not "casual user" projections. The difference is how much each referral pushes on Tria each month. The math is identical; only the per-referral activity input differs.</p>
       <table>
-        <tr><th></th><th>Conservative</th><th>Average</th><th>High</th></tr>
-        <tr><td>Monthly trading volume</td><td>$25K</td><td>$250K</td><td>$1M</td></tr>
-        <tr><td>Monthly card spend</td><td>$50</td><td>$500</td><td>$1,500</td></tr>
-        <tr><td>Card activity (annual)</td><td>$20</td><td>$70</td><td>$200</td></tr>
+        <tr><th></th><th>Average Pusher</th><th>High Pusher</th></tr>
+        <tr><td>Monthly trading volume per ref</td><td>$500K</td><td>$2M</td></tr>
+        <tr><td>Monthly card spend per ref</td><td>$1,000</td><td>$3,000</td></tr>
+        <tr><td>Card activity per ref (annual)</td><td>$100</td><td>$300</td></tr>
       </table>
-      <p style="margin-top:10px">A network of mostly casual users sits near Conservative. A network of crypto-native traders and primary cardholders sits near High. Most KOL networks land somewhere between Average and High.</p>
+      <p style="margin-top:10px"><strong>Average Pusher</strong> ≈ a crypto-native community where most referrals actually trade and use the card as a primary payment method. <strong>High Pusher</strong> ≈ a serious trader desk or KOL community — power users, Premium cardholders, real volume. Most active KOL networks land between these two, leaning toward High Pusher as the network matures.</p>
     </div>
   </details>
 
@@ -318,11 +316,11 @@
   const TRIA_FUTURES_FEE = 0.0005; // 0.05% taker fee on trading volume
 
   // Per-referral monthly assumptions, by band.
+  // Both bands assume the referral is actively engaged on Tria.
   // cardActivityAnnual = total annual card-sale gross per referral (absorbs product mix).
   const BANDS = {
-    conservative: { volume: 25000,   spend: 50,   cardActivityAnnual: 20  },
-    average:      { volume: 250000,  spend: 500,  cardActivityAnnual: 70  },
-    high:         { volume: 1000000, spend: 1500, cardActivityAnnual: 200 },
+    averagePusher: { volume: 500000,  spend: 1000, cardActivityAnnual: 100 },
+    highPusher:    { volume: 2000000, spend: 3000, cardActivityAnnual: 300 },
   };
 
   const $ = id => document.getElementById(id);
@@ -374,22 +372,19 @@
     $('tier-name').textContent = tier.name;
 
     // Per-band totals
-    const c = monthlyForBand(refs, tier, BANDS.conservative);
-    const a = monthlyForBand(refs, tier, BANDS.average);
-    const h = monthlyForBand(refs, tier, BANDS.high);
+    const a = monthlyForBand(refs, tier, BANDS.averagePusher);
+    const h = monthlyForBand(refs, tier, BANDS.highPusher);
 
-    // Headline (Average × 12)
+    // Headline (Average Pusher × 12)
     $('headline-value').textContent = fmtMoney(a.total * 12);
 
     // Bands
-    $('band-conservative').textContent    = fmtMoney(c.total * 12);
-    $('band-conservative-mo').textContent = fmtMonthly(c.total);
-    $('band-average').textContent         = fmtMoney(a.total * 12);
-    $('band-average-mo').textContent      = fmtMonthly(a.total);
-    $('band-high').textContent            = fmtMoney(h.total * 12);
-    $('band-high-mo').textContent         = fmtMonthly(h.total);
+    $('band-average').textContent    = fmtMoney(a.total * 12);
+    $('band-average-mo').textContent = fmtMonthly(a.total);
+    $('band-high').textContent       = fmtMoney(h.total * 12);
+    $('band-high-mo').textContent    = fmtMonthly(h.total);
 
-    // Breakdown (Average, annual)
+    // Breakdown (Average Pusher, annual)
     const annual = {
       futures: a.futures * 12,
       spend:   a.spend   * 12,
