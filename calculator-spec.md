@@ -73,7 +73,9 @@ Each band represents a different per-referral activity profile. All amounts are 
 | Card spend | 0.05% | Card spend volume |
 | Futures | 5% | Futures fee Tria collects |
 
-Indirect commission is explicitly **excluded from the calculator's headline math** to keep the slider focused on direct activity. It's mentioned in an FAQ disclosure as a "compounder" — rough heuristic: 5 sub-ambassadors mirroring your network ≈ 2× annual run-rate.
+**Indirect is ONE level deep — not an infinite downline.** Standard tiers (Bronze 1 → Gold) earn indirect commission only on transactions from the direct customers of ambassadors they sponsored. The chain stops there: a sponsored ambassador's own sponsored ambassadors' customers do **not** pay indirect to the original ambassador. Higher hierarchy operators (Platinum, Diamond) earn deeper revenue via a separate spread-to-max-tier mechanism, but that's outside this calculator's scope.
+
+Indirect commission is explicitly **excluded from the calculator's headline math** to keep the slider focused on direct activity. It's mentioned in an FAQ disclosure as a "compounder" — rough heuristic: 5 sponsored ambassadors mirroring your network ≈ 2× annual run-rate.
 
 ---
 

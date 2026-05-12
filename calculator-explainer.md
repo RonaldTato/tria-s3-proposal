@@ -102,7 +102,7 @@ A KOL with 500 active referrals running a power-user community is modeling **hal
 
 ## What's deliberately left out
 
-- **Indirect commission.** Sponsoring sub-ambassadors compounds the math significantly (locked rates 10% / 0.05% / 5% on their downline). We mention it in the FAQ and give a rough heuristic — 5 sub-ambassadors ≈ 2× annual run-rate — but it's not in the slider math. Decision: keep the headline focused on direct activity so the visitor doesn't conflate "what I can build" with "what my sponsors can build for me."
+- **Indirect commission.** Sponsoring sub-ambassadors compounds the math significantly (locked rates 10% / 0.05% / 5% on their direct customers' transactions — **one level only**, not infinite cascading). We mention it in the FAQ and give a rough heuristic — 5 sponsored ambassadors ≈ 2× annual run-rate — but it's not in the slider math. Decision: keep the headline focused on direct activity so the visitor doesn't conflate "what I can build" with "what my sponsors can build for me." Higher hierarchy operators (Platinum, Diamond) earn deeper revenue via a separate "spread to max tier" mechanism, but the standard program caps indirect at one level.
 - **Higher hierarchy.** The calculator caps at Gold. There's a one-line callout acknowledging a higher hierarchy exists, accessible by accelerated climb or direct invitation. No rates, no tier names, no specifics. (This was explicit direction from the previous iteration.)
 - **Card product specifics.** Virtual / Signature / Premium and their respective prices never appear on the public surface. Baked into the per-band card-activity assumption.
 - **Competitor comparisons.** No ether.fi side-by-side or similar. The page focuses on Tria's own economics.

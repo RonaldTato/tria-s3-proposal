@@ -22,7 +22,7 @@
 > Built for operators who already move volume.
 
 **Sub-headline (one line):**
-> Three revenue streams. Lifetime downline. Stablecoin payouts. A public ladder — and a higher hierarchy above it.
+> Three revenue streams. Locked indirect rates. Stablecoin payouts. A public ladder — and a higher hierarchy above it.
 
 **Supporting line (smaller):**
 > Climb the rungs, or get invited directly. Either way, the program rewards the volume you already drive.
@@ -41,8 +41,8 @@ Four short cards. Title + one sentence each. No icons unless the designer adds t
 **Three revenue streams, not one**
 You earn on card issuance, ongoing card spend, and futures trading fees. Most programs pay one. We pay three — every month, on the same network.
 
-**Lifetime downline**
-Bring another ambassador. Their entire production pays you indirect commission. Forever. Locked rate, no decay.
+**Indirect, locked rate**
+Bring another ambassador. The customers they refer pay you a locked indirect commission — one level deep, but the rate never decays.
 
 **Recurring revenue, not one-shot**
 Card spend pays you every month your referrals swipe. It compounds with your network — not your effort.
@@ -76,9 +76,9 @@ A clean rate table. Add the footer line below the table — it does the heavy li
 
 Short, prominent block. This is what makes the difference for a network operator.
 
-**Bring another ambassador. Their downline pays you, forever.**
+**Sponsor an ambassador. Their direct customers pay you at a locked rate that never changes.**
 
-When an ambassador you sponsored produces — at any rung — you earn at locked indirect rates on their entire production:
+When an ambassador you sponsored refers a customer who transacts, you earn at locked indirect rates on that transaction. One level deep — your sponsored ambassador's direct customers, not deeper. The rate is fixed across all standard tiers (Bronze to Gold all earn the same indirect cut):
 
 - **10%** of their card sales
 - **0.05%** of their card spend
@@ -149,7 +149,10 @@ Downgrades run nightly at 23:59:59 UTC. Tier benefits persist for a grace window
 Anyone in your network with at least $1 of cumulative card spend or at least $10K of cumulative trading volume in the last 90 days.
 
 **Does my indirect commission expire?**
-No. The downline relationship is permanent. As long as your sponsored ambassador is producing, you earn indirect.
+No. The sponsor relationship is permanent. As long as your sponsored ambassador's direct customers keep transacting, you keep earning indirect — at the locked rate above.
+
+**How many levels deep does indirect go?**
+One. You earn indirect commission only on the direct customers of the ambassadors you sponsored. Deeper layers (your sponsored ambassador's own sponsored ambassadors' customers) don't pay you indirect. Higher hierarchy operators (Platinum / Diamond) earn through a different mechanism — a spread that fills up to their tier's max rate — but the standard program is one level of indirect, full stop.
 
 **Can I climb to the higher hierarchy?**
 Yes — either by running the public ladder fast enough, or by direct invitation. We don't publish the criteria.
