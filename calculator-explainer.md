@@ -2,7 +2,7 @@
 
 > Plain-English explainer for the team. What we built, why we built it this way, and what's intentionally left out. Pair with `calculator-spec.md` if you want the implementation details.
 >
-> Live: https://ronaldtato.github.io/tria-s3-proposal/calculator.html
+> Live: https://ronaldtato.github.io/tria-s3-proposal/landing/#calculator
 
 ---
 

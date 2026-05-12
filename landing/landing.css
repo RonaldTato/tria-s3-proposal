@@ -1415,6 +1415,78 @@ section.block { padding-block: var(--space-7); position: relative; }
   max-width: 70ch;
 }
 
+/* Calc-specific FAQ disclosures (sit inside the calc card, just under the
+   higher-hierarchy callout). Distinct from the page-level FAQ section so
+   visitors can answer mid-flow questions without losing the calculator.
+   Visual treatment matches .faq-item but more compact. */
+.calc-disclosures {
+  margin-top: var(--space-4);
+  display: flex; flex-direction: column;
+  gap: var(--space-2);
+}
+.calc-disclosure {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  overflow: hidden;
+}
+.calc-disclosure summary {
+  list-style: none;
+  cursor: pointer;
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--ink);
+  display: flex; justify-content: space-between; align-items: center;
+  gap: var(--space-3);
+  transition: background 0.15s;
+}
+.calc-disclosure summary::-webkit-details-marker { display: none; }
+.calc-disclosure summary:hover { background: rgba(255,255,255,0.02); }
+.calc-disclosure summary .plus {
+  font-family: var(--font-mono);
+  color: var(--accent);
+  font-size: var(--text-md);
+  font-weight: 400;
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+.calc-disclosure[open] summary .plus { transform: rotate(45deg); }
+.calc-disclosure .body {
+  padding: 0 var(--space-4) var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  line-height: 1.65;
+}
+.calc-disclosure .body p { margin-bottom: var(--space-2); }
+.calc-disclosure .body p:last-child { margin-bottom: 0; }
+.calc-disclosure .body strong { color: var(--ink); font-weight: 500; }
+.calc-disclosure .body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--space-3) 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+}
+.calc-disclosure .body th,
+.calc-disclosure .body td {
+  padding: 8px 6px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.calc-disclosure .body th {
+  color: var(--text-subtle);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 10px;
+}
+.calc-disclosure .body td:first-child { color: var(--text); font-family: var(--font-sans); }
+@media (max-width: 560px) {
+  .calc-disclosure .body table { font-size: 11px; }
+  .calc-disclosure .body th, .calc-disclosure .body td { padding: 6px 4px; }
+}
+
 /* ---- FAQ ---- */
 .faq-list {
   border-top: 1px solid var(--border-soft);

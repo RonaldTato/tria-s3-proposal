@@ -2,7 +2,7 @@
 
 > Drop this entire file into Claude Design (or hand it to an engineer). Every constant, formula, and state transition needed to rebuild the calculator is below. Inspired by ether.fi's affiliate calculator structure, but uses Tria's actual rates and adds a three-band projection.
 >
-> Live reference: https://ronaldtato.github.io/tria-s3-proposal/calculator.html
+> Live reference: https://ronaldtato.github.io/tria-s3-proposal/landing/#calculator
 
 ---
 

@@ -125,7 +125,7 @@ Embed the calculator below this section as an iframe or link out. Keep the perso
 
 The calculator uses the real published rates from the public ladder. It does not project the higher hierarchy.
 
-Calculator URL: https://ronaldtato.github.io/tria-s3-proposal/calculator.html
+Calculator URL: https://ronaldtato.github.io/tria-s3-proposal/landing/#calculator
 
 ---
 
