@@ -1211,11 +1211,14 @@ section.block { padding-block: var(--space-7); position: relative; }
 .calc-headline-num {
   margin-top: var(--space-2);
   font-family: var(--font-mono);
-  font-size: clamp(2rem, 4.6vw, 3.25rem);
-  font-weight: 500;
-  letter-spacing: -0.04em;
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 600;
+  letter-spacing: -0.045em;
   line-height: 0.92;
-  background: linear-gradient(110deg, var(--accent) 0%, var(--ivory) 35%, var(--accent) 70%);
+  /* Gold-forward gradient that pops on the dark background and reinforces
+     the Gold-tier theme of the calculator. The previous accent/ivory
+     palette rendered too muted to read as the "headline number" it is. */
+  background: linear-gradient(110deg, var(--gold-2) 0%, var(--ivory) 35%, var(--gold) 70%, var(--gold-2) 100%);
   background-size: 220% 100%;
   -webkit-background-clip: text;
   background-clip: text;
@@ -1224,6 +1227,11 @@ section.block { padding-block: var(--space-7); position: relative; }
   animation: h1-shimmer 6s ease-in-out infinite;
   display: inline-block;
   padding-right: 0.08em;
+  /* tabular-nums keeps digit widths constant so the headline doesn't
+     reflow as the user drags the slider. */
+  font-variant-numeric: tabular-nums;
+  /* Soft gold glow underneath the text */
+  filter: drop-shadow(0 0 18px rgba(232, 180, 71, 0.18));
 }
 
 /* Same gold-on-ivory shimmer for the big refs number */
@@ -1239,27 +1247,6 @@ section.block { padding-block: var(--space-7); position: relative; }
   padding-right: 0.06em;
 }
 
-/* Band amounts get the shimmer too — staggered for visual rhythm */
-.band-card .band-amt {
-  background: linear-gradient(110deg, var(--text-muted) 0%, var(--ivory) 50%, var(--text-muted) 100%);
-  background-size: 220% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-  animation: h1-shimmer 7s ease-in-out infinite;
-  display: inline-block;
-  padding-right: 0.06em;
-}
-.band-card.featured .band-amt {
-  background: linear-gradient(110deg, var(--accent) 0%, var(--ivory) 50%, var(--accent) 100%);
-  background-size: 220% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-  animation: h1-shimmer 6s 0.8s ease-in-out infinite;
-}
 .calc-headline-sub {
   margin-top: var(--space-2);
   font-size: var(--text-sm);
@@ -1316,10 +1303,24 @@ section.block { padding-block: var(--space-7); position: relative; }
 .band-card .band-amt {
   margin-top: var(--space-2);
   font-family: var(--font-mono);
-  font-size: var(--text-lg);
-  letter-spacing: -0.025em;
+  font-size: var(--text-xl);
+  font-weight: 600;
+  letter-spacing: -0.03em;
   line-height: 1;
   color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.band-card.featured .band-amt {
+  /* Featured band gets the same gold-forward gradient as the headline,
+     so the eye reads them as a unit. */
+  background: linear-gradient(110deg, var(--gold-2) 0%, var(--ivory) 40%, var(--gold) 80%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: h1-shimmer 7s ease-in-out infinite;
+  display: inline-block;
 }
 .band-card .band-monthly {
   margin-top: 8px;
@@ -1327,6 +1328,7 @@ section.block { padding-block: var(--space-7); position: relative; }
   font-size: var(--text-xs);
   letter-spacing: 0.12em;
   color: var(--text-faint);
+  font-variant-numeric: tabular-nums;
 }
 
 /* Breakdown panel */
@@ -1380,6 +1382,7 @@ section.block { padding-block: var(--space-7); position: relative; }
   font-family: var(--font-mono);
   font-size: var(--text-sm);
   color: var(--ink);
+  font-variant-numeric: tabular-nums;
   text-align: right;
   min-width: 80px;
 }
