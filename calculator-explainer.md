@@ -8,7 +8,7 @@
 
 ## TL;DR
 
-A public-facing ambassador earnings calculator. One slider (active referrals), one big number (12-month projected rewards under the Average Pusher band), plus an "upper-bound" High Pusher band so the visitor sees what a mature, high-volume network earns. Inspired by ether.fi's affiliate calculator UX but with Tria's actual tier rates and a two-band projection layer added on top — no "conservative" projection because the audience for this page is operators who already move volume.
+A public-facing ambassador earnings calculator. One slider (active referrals), one big number (12-month projected rewards under the Average Pusher band), plus an "upper-bound" Heavy Pusher band so the visitor sees what a mature, high-volume network earns. Inspired by ether.fi's affiliate calculator UX but with Tria's actual tier rates and a two-band projection layer added on top — no "conservative" projection because the audience for this page is operators who already move volume.
 
 ---
 
@@ -17,9 +17,9 @@ A public-facing ambassador earnings calculator. One slider (active referrals), o
 The visitor moves a slider from 0 to 500 active referrals. The calculator auto-detects which tier they're in (Bronze 1 through Gold based on the Season 3 spec), then projects their annual rewards two ways:
 
 - **Average Pusher** — a crypto-native network where most referrals actually trade and use the card as a primary payment method. This is the realistic floor for a network that's actually moving.
-- **High Pusher** — a serious trader desk or KOL community where Premium cardholders, real-volume traders, and mature engagement are the norm. Same network at mature operating velocity.
+- **Heavy Pusher** — a serious trader desk or KOL community where Premium cardholders, real-volume traders, and mature engagement are the norm. Same network at mature operating velocity.
 
-The headline number on the page is the **Average Pusher** band's 12-month total. **High Pusher** sits next to it as the upper bound. Below both, a breakdown shows where the Average Pusher number comes from (futures fees vs. card spend vs. card sales) with each stream's % share of the total.
+The headline number on the page is the **Average Pusher** band's 12-month total. **Heavy Pusher** sits next to it as the upper bound. Below both, a breakdown shows where the Average Pusher number comes from (futures fees vs. card spend vs. card sales) with each stream's % share of the total.
 
 **There is no "Conservative" projection on purpose.** The audience for this page is operators who already move volume — KOLs, MLM veterans, trading community leaders. A "casual user" floor would undersell the program and feel disconnected from how this audience actually operates.
 
@@ -42,7 +42,7 @@ The earlier version of the calculator had eight input fields: active refs, month
 1. **The slider sets active referrals.** Per the Season 3 spec, that's anyone in your network with ≥$1 card spend or ≥$10K trading volume in the last 90 days, counted at depth 1 + depth 2.
 2. **Tier badge updates as you slide.** Thresholds: Bronze 1 (0–2) · Bronze 2 (3–9) · Silver 1 (10–19) · Silver 2 (20–29) · Gold (30+).
 3. **Headline number = Average Pusher band annual.** USD-equivalent, claimable in USDC/USDT in-app.
-4. **Two band cards.** Average Pusher (featured) · High Pusher — each shows annual + approximate monthly.
+4. **Two band cards.** Average Pusher (featured) · Heavy Pusher — each shows annual + approximate monthly.
 5. **Breakdown panel.** Shows the three streams (futures / card spend / card sales) for the Average Pusher band, with each stream's % share so you can see where the money comes from at any scale.
 6. **Higher hierarchy callout.** A single line acknowledging there's a higher tier above Gold but no specifics.
 7. **Three collapsible FAQs** at the bottom: band assumptions table, indirect commission explainer, rate application notes.
@@ -53,7 +53,7 @@ The earlier version of the calculator had eight input fields: active refs, month
 
 Each band's only difference is the **per-referral activity profile**. The math is identical across bands; only these three inputs change:
 
-| Per referral | Average Pusher | High Pusher |
+| Per referral | Average Pusher | Heavy Pusher |
 |---|---:|---:|
 | Monthly trading volume | $500K | $2M |
 | Monthly card spend | $2,000 | $5,000 |
@@ -61,9 +61,9 @@ Each band's only difference is the **per-referral activity profile**. The math i
 
 **Average Pusher** ≈ a crypto-native community where most referrals actually trade on Tria and use the card as their primary payment method. This is what we'd expect a real KOL network to look like 6 months in — not a "casual user" floor.
 
-**High Pusher** ≈ a serious trader desk or KOL community with mature engagement — power users, Premium cardholders, real monthly trading volume. Roughly what the same network looks like a year in with product fit working.
+**Heavy Pusher** ≈ a serious trader desk or KOL community with mature engagement — power users, Premium cardholders, real monthly trading volume. Roughly what the same network looks like a year in with product fit working.
 
-The "card-subscription sales" line is the gross dollar value of cards your network buys per year, including new issuance, upgrades, and replacements. It absorbs the product mix (Virtual $20 / Signature $90 / Premium $225) at a middle-ground avg price of ~$100/card. **Calibrated against ambassador throughput at a 30-ref Gold network:** Average Pusher = ~5 cards/month sold; High Pusher = ~25 cards/month.
+The "card-subscription sales" line is the gross dollar value of cards your network buys per year, including new issuance, upgrades, and replacements. It absorbs the product mix (Virtual $20 / Signature $90 / Premium $225) at a middle-ground avg price of ~$100/card. **Calibrated against ambassador throughput at a 30-ref Gold network:** Average Pusher = ~5 cards/month sold; Heavy Pusher = ~25 cards/month.
 
 This way the visitor never sees Virtual / Signature / Premium in the UI. The product detail stays in the portal.
 
@@ -78,23 +78,23 @@ This way the visitor never sees Virtual / Signature / Premium in the UI. The pro
 | Band | Monthly | Annual |
 |---|---:|---:|
 | **Average Pusher** | **~$1,425** | **$17,100** |
-| High Pusher | ~$5,625 | $67,500 |
+| Heavy Pusher | ~$5,625 | $67,500 |
 
 ### 100 active referrals (Gold)
 
 | Band | Annual |
 |---|---:|
 | **Average Pusher** | **$57,000** |
-| High Pusher | $225,000 |
+| Heavy Pusher | $225,000 |
 
 ### 500 active referrals (Gold) — KOL scale
 
 | Band | Annual |
 |---|---:|
 | **Average Pusher** | **$285,000** |
-| High Pusher | **$1,125,000** |
+| Heavy Pusher | **$1,125,000** |
 
-A KOL with 500 active referrals running a real trading community is modeling **a quarter million a year** on the Average Pusher band — and **just past a million** on High Pusher — from direct commission alone, on the public-ladder Gold rate. That's the headline that has to land.
+A KOL with 500 active referrals running a real trading community is modeling **a quarter million a year** on the Average Pusher band — and **just past a million** on Heavy Pusher — from direct commission alone, on the public-ladder Gold rate. That's the headline that has to land.
 
 ---
 
@@ -119,9 +119,9 @@ These are the levers that determine the calculator's output. Adjusting any of th
 | Average Pusher volume | $500K/ref/mo | `BANDS.averagePusher.volume` |
 | Average Pusher card spend | $2K/ref/mo | `BANDS.averagePusher.spend` |
 | Average Pusher card sales | $200/ref/yr | `BANDS.averagePusher.cardActivityAnnual` |
-| High Pusher volume | $2M/ref/mo | `BANDS.highPusher.volume` |
-| High Pusher card spend | $5K/ref/mo | `BANDS.highPusher.spend` |
-| High Pusher card sales | $1K/ref/yr | `BANDS.highPusher.cardActivityAnnual` |
+| Heavy Pusher volume | $2M/ref/mo | `BANDS.heavyPusher.volume` |
+| Heavy Pusher card spend | $5K/ref/mo | `BANDS.heavyPusher.spend` |
+| Heavy Pusher card sales | $1K/ref/yr | `BANDS.heavyPusher.cardActivityAnnual` |
 | Slider range | 0–500 | slider element |
 
 If we ever get real network data, we should recalibrate the two bands against actual user behavior on Tria. The current values are reasoned estimates, not measured.
@@ -131,7 +131,7 @@ If we ever get real network data, we should recalibrate the two bands against ac
 ## Open questions for the team
 
 1. **Slider range** — 500 max is fine for most KOLs, but a top-tier ambassador with a 2,000-person community is at $130K × 4 = $522K/year on the Average band. Visitors can type a number past 500, but the slider stops there. Should we extend?
-2. **Band labels** — "Average Pusher / High Pusher" reads aggressive (intentional). If a partner pushes back that "Pusher" sounds too sales-y, alternates are "Engaged / Power" or "Standard / Heavy."
+2. **Band labels** — "Average Pusher / Heavy Pusher" reads aggressive (intentional). If a partner pushes back that "Pusher" sounds too sales-y, alternates are "Engaged / Power" or "Standard / Heavy."
 3. **Indirect commission in calc** — we excluded it for simplicity. Should there be a toggle to add it ("with N sub-ambassadors")? Risk: undercuts the simplicity of the single-slider UX.
 4. **Tier-jump visualization** — going from Silver 2 (25 refs) to Gold (30 refs) is a significant rate jump. Could we visually mark that on the slider? Currently the tier badge just changes label.
 5. **"Average" vs. "Median"** — the headline currently says Average. Median might be more honest if our distributions are skewed. Probably doesn't matter for visitor perception.
@@ -163,6 +163,6 @@ If we want to add a chart later, it'd be most useful as a "what if your network 
 
 ## End-state
 
-This calculator does one job: convert "how big is my network" into "how much can I earn." It does it with one slider, two projection bands (Average Pusher / High Pusher), and a transparent breakdown of the headline number. Visitors who want product-level detail (Virtual / Signature / Premium pricing, indirect commission mechanics, the higher hierarchy) go to the portal.
+This calculator does one job: convert "how big is my network" into "how much can I earn." It does it with one slider, two projection bands (Average Pusher / Heavy Pusher), and a transparent breakdown of the headline number. Visitors who want product-level detail (Virtual / Signature / Premium pricing, indirect commission mechanics, the higher hierarchy) go to the portal.
 
 If you have feedback on the band assumptions, the slider range, or the copy — flag it. Everything except the tier rates is tunable; the tier rates are locked to the spec.

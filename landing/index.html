@@ -402,7 +402,7 @@
     </div>
 
     <p style="font-size: var(--text-md); color: var(--text-muted); max-width: 64ch; margin-bottom: var(--space-5);">
-      One slider. Two projections built from real Tria rates. Both bands assume an active network — <strong>Average Pusher</strong> is the realistic floor for a network that actually moves volume, <strong>High Pusher</strong> is the same network at mature operating velocity.
+      One slider. Two projections built from real Tria rates. Both bands assume an active network — <strong>Average Pusher</strong> is the realistic floor for a network that actually moves volume, <strong>Heavy Pusher</strong> is the same network at mature operating velocity.
     </p>
 
     <div class="calc">
@@ -464,7 +464,7 @@
           <div class="band-monthly" id="bandAvgMo">≈ $1,425 / mo</div>
         </div>
         <div class="band-card">
-          <div class="band-name">High Pusher</div>
+          <div class="band-name">Heavy Pusher</div>
           <div class="band-amt" id="bandHigh">$67,500</div>
           <div class="band-monthly" id="bandHighMo">≈ $5,625 / mo</div>
         </div>
@@ -501,17 +501,17 @@
 
       <div class="calc-disclosures">
         <details class="calc-disclosure">
-          <summary>What's "Average Pusher" vs "High Pusher"? <span class="plus">+</span></summary>
+          <summary>What's "Average Pusher" vs "Heavy Pusher"? <span class="plus">+</span></summary>
           <div class="body">
             <p>Both bands assume your network is active — these are not "casual user" projections. The difference is how much each referral pushes on Tria each month. The math is identical; only the per-referral activity input differs.</p>
             <table>
-              <tr><th></th><th>Average Pusher</th><th>High Pusher</th></tr>
+              <tr><th></th><th>Average Pusher</th><th>Heavy Pusher</th></tr>
               <tr><td>Monthly trading volume per ref</td><td>$500K</td><td>$2M</td></tr>
               <tr><td>Monthly card spend per ref</td><td>$2,000</td><td>$5,000</td></tr>
               <tr><td>Card-subscription sales per ref / year</td><td>$200</td><td>$1,000</td></tr>
             </table>
-            <p><strong>Card-subscription sales</strong> = the gross dollar value of cards your network buys per year (new issuance, upgrades, replacements). Modeled at a middle-ground price between Virtual ($20), Signature ($90), and Premium ($225) — so the per-ref number absorbs the product mix. Calibrated against ambassador throughput: at a 30-ref Gold network, Average Pusher = <strong>~5 cards/month</strong>; High Pusher = <strong>~25 cards/month</strong>.</p>
-            <p><strong>Average Pusher</strong> ≈ a crypto-native community where most referrals actually trade and use the card as a primary payment method. <strong>High Pusher</strong> ≈ a serious trader desk or KOL community — power users, Premium cardholders, real volume. Most active KOL networks land between these two, leaning toward High Pusher as the network matures.</p>
+            <p><strong>Card-subscription sales</strong> = the gross dollar value of cards your network buys per year (new issuance, upgrades, replacements). Modeled at a middle-ground price between Virtual ($20), Signature ($90), and Premium ($225) — so the per-ref number absorbs the product mix. Calibrated against ambassador throughput: at a 30-ref Gold network, Average Pusher = <strong>~5 cards/month</strong>; Heavy Pusher = <strong>~25 cards/month</strong>.</p>
+            <p><strong>Average Pusher</strong> ≈ a crypto-native community where most referrals actually trade and use the card as a primary payment method. <strong>Heavy Pusher</strong> ≈ a serious trader desk or KOL community — power users, Premium cardholders, real volume. Most active KOL networks land between these two, leaning toward Heavy Pusher as the network matures.</p>
           </div>
         </details>
 
@@ -782,7 +782,7 @@
   // sold, High = 25 cards/month.
   const BANDS = {
     averagePusher: { volume: 500000,  spend: 2000, cardActivityAnnual: 200  },
-    highPusher:    { volume: 2000000, spend: 5000, cardActivityAnnual: 1000 },
+    heavyPusher:    { volume: 2000000, spend: 5000, cardActivityAnnual: 1000 },
   };
   const tierFor = (refs) => TIERS.find(t => refs >= t.min && refs <= t.max) || TIERS[0];
   const monthlyForBand = (refs, tier, band) => {
@@ -813,7 +813,7 @@
     refs = Math.max(0, Math.floor(Number(refs) || 0));
     const tier = tierFor(refs);
     const avg = monthlyForBand(refs, tier, BANDS.averagePusher);
-    const hi  = monthlyForBand(refs, tier, BANDS.highPusher);
+    const hi  = monthlyForBand(refs, tier, BANDS.heavyPusher);
 
     refsNum.textContent = refs.toLocaleString("en-US");
     if (!opts.skipInput) refsInput.value = refs;
