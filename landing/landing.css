@@ -1273,7 +1273,7 @@ section.block { padding-block: var(--space-7); position: relative; }
 .calc-bands {
   margin-top: var(--space-5);
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr 1fr;
   gap: var(--space-3);
 }
 @media (max-width: 760px) { .calc-bands { grid-template-columns: 1fr; } }
@@ -1293,7 +1293,7 @@ section.block { padding-block: var(--space-7); position: relative; }
   box-shadow: 0 0 32px var(--glow-3);
 }
 .band-card.featured::after {
-  content: "AVERAGE";
+  content: "HEADLINE";
   position: absolute;
   top: -10px; left: 50%;
   transform: translateX(-50%);

@@ -402,7 +402,7 @@
     </div>
 
     <p style="font-size: var(--text-md); color: var(--text-muted); max-width: 64ch; margin-bottom: var(--space-5);">
-      One slider. Three projections built from real Tria rates. Modeled on per-referral activity — three bands let you see the floor, the median, and the ceiling without modeling product-level detail.
+      One slider. Two projections built from real Tria rates. Both bands assume an active network — <strong>Average Pusher</strong> is the realistic floor for a network that actually moves volume, <strong>High Pusher</strong> is the same network at mature operating velocity.
     </p>
 
     <div class="calc">
@@ -451,51 +451,46 @@
 
       <!-- Headline -->
       <div class="calc-headline">
-        <div class="lbl">Projected 12-month rewards · Average</div>
-        <div class="calc-headline-num" id="headlineNum">$7,830</div>
+        <div class="lbl">Projected 12-month rewards · Average Pusher</div>
+        <div class="calc-headline-num" id="headlineNum">$17,100</div>
         <div class="calc-headline-sub">USDC / USDT · Claimable in-app · Paid in stablecoin</div>
       </div>
 
-      <!-- Three bands -->
+      <!-- Two bands -->
       <div class="calc-bands">
-        <div class="band-card">
-          <div class="band-name">Conservative</div>
-          <div class="band-amt" id="bandLow">$900</div>
-          <div class="band-monthly" id="bandLowMo">≈ $75 / mo</div>
-        </div>
         <div class="band-card featured">
-          <div class="band-name">Average</div>
-          <div class="band-amt" id="bandAvg">$7,830</div>
-          <div class="band-monthly" id="bandAvgMo">≈ $653 / mo</div>
+          <div class="band-name">Average Pusher</div>
+          <div class="band-amt" id="bandAvg">$17,100</div>
+          <div class="band-monthly" id="bandAvgMo">≈ $1,425 / mo</div>
         </div>
         <div class="band-card">
-          <div class="band-name">High</div>
-          <div class="band-amt" id="bandHigh">$30,150</div>
-          <div class="band-monthly" id="bandHighMo">≈ $2,513 / mo</div>
+          <div class="band-name">High Pusher</div>
+          <div class="band-amt" id="bandHigh">$67,500</div>
+          <div class="band-monthly" id="bandHighMo">≈ $5,625 / mo</div>
         </div>
       </div>
 
       <!-- Breakdown -->
       <div class="calc-breakdown">
-        <h4>Where the <span>Average</span> band comes from — monthly</h4>
+        <h4>Where the <span>Average Pusher</span> number comes from — monthly</h4>
         <div class="bd-rows">
           <div class="bd-row futures">
             <span class="k">Futures fees</span>
-            <div class="track"><div class="fill" id="bdFuturesBar" style="width: 24%;"></div></div>
-            <span class="v" id="bdFutures">$156</span>
-            <span class="pct" id="bdFuturesPct">24%</span>
+            <div class="track"><div class="fill" id="bdFuturesBar" style="width: 79%;"></div></div>
+            <span class="v" id="bdFutures">$1,125</span>
+            <span class="pct" id="bdFuturesPct">79%</span>
           </div>
           <div class="bd-row spend">
             <span class="k">Card spend</span>
-            <div class="track"><div class="fill" id="bdSpendBar" style="width: 6%;"></div></div>
-            <span class="v" id="bdSpend">$38</span>
-            <span class="pct" id="bdSpendPct">6%</span>
+            <div class="track"><div class="fill" id="bdSpendBar" style="width: 11%;"></div></div>
+            <span class="v" id="bdSpend">$150</span>
+            <span class="pct" id="bdSpendPct">11%</span>
           </div>
           <div class="bd-row sales">
             <span class="k">Card sales</span>
-            <div class="track"><div class="fill" id="bdSalesBar" style="width: 70%;"></div></div>
-            <span class="v" id="bdSales">$459</span>
-            <span class="pct" id="bdSalesPct">70%</span>
+            <div class="track"><div class="fill" id="bdSalesBar" style="width: 11%;"></div></div>
+            <span class="v" id="bdSales">$150</span>
+            <span class="pct" id="bdSalesPct">11%</span>
           </div>
         </div>
       </div>
@@ -742,10 +737,16 @@
     { id: "gd", name: "Gold",     min: 30, max: Infinity, cardSales: 0.30, cardSpend: 0.0025, futures: 0.15 },
   ];
   const TRIA_FUTURES_FEE = 0.0005;
+  // Per-referral monthly assumptions. Both bands assume an active network —
+  // no "casual user" floor by design. cardActivityAnnual = gross dollar value
+  // of card-subscription sales per ref per year (new issuance + upgrades +
+  // replacements), modeled at a ~$100 middle-ground avg card price between
+  // Virtual ($20) / Signature ($90) / Premium ($225). Calibrated against
+  // ambassador throughput at a 30-ref Gold network: Avg = 5 cards/month
+  // sold, High = 25 cards/month.
   const BANDS = {
-    conservative: { volume: 25000,   spend: 50,   cardActivityAnnual: 20  },
-    average:      { volume: 250000,  spend: 500,  cardActivityAnnual: 70  },
-    high:         { volume: 1000000, spend: 1500, cardActivityAnnual: 200 },
+    averagePusher: { volume: 500000,  spend: 2000, cardActivityAnnual: 200  },
+    highPusher:    { volume: 2000000, spend: 5000, cardActivityAnnual: 1000 },
   };
   const tierFor = (refs) => TIERS.find(t => refs >= t.min && refs <= t.max) || TIERS[0];
   const monthlyForBand = (refs, tier, band) => {
@@ -766,7 +767,6 @@
   const trackFill  = $("trackFill");
   const trackThumb = $("trackThumb");
   const headlineNum= $("headlineNum");
-  const bandLow    = $("bandLow"),  bandLowMo  = $("bandLowMo");
   const bandAvg    = $("bandAvg"),  bandAvgMo  = $("bandAvgMo");
   const bandHigh   = $("bandHigh"), bandHighMo = $("bandHighMo");
   const bdFutures  = $("bdFutures"),  bdFuturesBar = $("bdFuturesBar"), bdFuturesPct = $("bdFuturesPct");
@@ -776,9 +776,8 @@
   function update(refs, opts = {}) {
     refs = Math.max(0, Math.floor(Number(refs) || 0));
     const tier = tierFor(refs);
-    const cons = monthlyForBand(refs, tier, BANDS.conservative);
-    const avg  = monthlyForBand(refs, tier, BANDS.average);
-    const hi   = monthlyForBand(refs, tier, BANDS.high);
+    const avg = monthlyForBand(refs, tier, BANDS.averagePusher);
+    const hi  = monthlyForBand(refs, tier, BANDS.highPusher);
 
     refsNum.textContent = refs.toLocaleString("en-US");
     if (!opts.skipInput) refsInput.value = refs;
@@ -793,18 +792,16 @@
     tierName.textContent = tier.name;
     tierPill.classList.toggle("is-gold", tier.id === "gd");
 
-    // Headline = Average × 12
+    // Headline = Average Pusher × 12
     headlineNum.textContent = fmt(avg.total * 12);
 
-    // Three bands
-    bandLow.textContent  = fmt(cons.total * 12);
+    // Two bands
     bandAvg.textContent  = fmt(avg.total * 12);
     bandHigh.textContent = fmt(hi.total * 12);
-    bandLowMo.textContent  = "≈ " + fmt(cons.total) + " / mo";
     bandAvgMo.textContent  = "≈ " + fmt(avg.total)  + " / mo";
     bandHighMo.textContent = "≈ " + fmt(hi.total)   + " / mo";
 
-    // Breakdown — Average band, monthly
+    // Breakdown — Average Pusher band, monthly
     const total = avg.total || 1;
     const pctFut = (avg.futures / total) * 100;
     const pctSpd = (avg.spend   / total) * 100;
