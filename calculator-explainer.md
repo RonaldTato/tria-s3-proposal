@@ -56,14 +56,14 @@ Each band's only difference is the **per-referral activity profile**. The math i
 | Per referral | Average Pusher | High Pusher |
 |---|---:|---:|
 | Monthly trading volume | $500K | $2M |
-| Monthly card spend | $1,000 | $3,000 |
-| Card-sale activity / year | $100 | $300 |
+| Monthly card spend | $2,000 | $5,000 |
+| Card-subscription sales / year | $200 | $1,000 |
 
 **Average Pusher** ≈ a crypto-native community where most referrals actually trade on Tria and use the card as their primary payment method. This is what we'd expect a real KOL network to look like 6 months in — not a "casual user" floor.
 
 **High Pusher** ≈ a serious trader desk or KOL community with mature engagement — power users, Premium cardholders, real monthly trading volume. Roughly what the same network looks like a year in with product fit working.
 
-The "card-sale activity" line absorbs the card-product mix. Average Pusher ≈ a Signature ($90)–centerpiece mix with occasional Premium. High Pusher ≈ Premium ($225)–dominant with regular reactivations.
+The "card-subscription sales" line is the gross dollar value of cards your network buys per year, including new issuance, upgrades, and replacements. It absorbs the product mix (Virtual $20 / Signature $90 / Premium $225) at a middle-ground avg price of ~$100/card. **Calibrated against ambassador throughput at a 30-ref Gold network:** Average Pusher = ~5 cards/month sold; High Pusher = ~25 cards/month.
 
 This way the visitor never sees Virtual / Signature / Premium in the UI. The product detail stays in the portal.
 
@@ -77,24 +77,24 @@ This way the visitor never sees Virtual / Signature / Premium in the UI. The pro
 
 | Band | Monthly | Annual |
 |---|---:|---:|
-| **Average Pusher** | **~$1,275** | **$15,300** |
-| High Pusher | ~$4,950 | $59,400 |
+| **Average Pusher** | **~$1,425** | **$17,100** |
+| High Pusher | ~$5,625 | $67,500 |
 
 ### 100 active referrals (Gold)
 
 | Band | Annual |
 |---|---:|
-| **Average Pusher** | **$51,000** |
-| High Pusher | $198,000 |
+| **Average Pusher** | **$57,000** |
+| High Pusher | $225,000 |
 
 ### 500 active referrals (Gold) — KOL scale
 
 | Band | Annual |
 |---|---:|
-| **Average Pusher** | **$255,000** |
-| High Pusher | **$990,000** |
+| **Average Pusher** | **$285,000** |
+| High Pusher | **$1,125,000** |
 
-A KOL with 500 active referrals running a real trading community is modeling **a quarter million a year** on the Average Pusher band — and **just under a million** on High Pusher — from direct commission alone, on the public-ladder Gold rate. That's the headline that has to land.
+A KOL with 500 active referrals running a real trading community is modeling **a quarter million a year** on the Average Pusher band — and **just past a million** on High Pusher — from direct commission alone, on the public-ladder Gold rate. That's the headline that has to land.
 
 ---
 
@@ -117,7 +117,11 @@ These are the levers that determine the calculator's output. Adjusting any of th
 | Tier rates | per spec lines 60–66 | TIERS array |
 | Tria futures fee | 0.05% of volume | `TRIA_FUTURES_FEE` |
 | Average Pusher volume | $500K/ref/mo | `BANDS.averagePusher.volume` |
+| Average Pusher card spend | $2K/ref/mo | `BANDS.averagePusher.spend` |
+| Average Pusher card sales | $200/ref/yr | `BANDS.averagePusher.cardActivityAnnual` |
 | High Pusher volume | $2M/ref/mo | `BANDS.highPusher.volume` |
+| High Pusher card spend | $5K/ref/mo | `BANDS.highPusher.spend` |
+| High Pusher card sales | $1K/ref/yr | `BANDS.highPusher.cardActivityAnnual` |
 | Slider range | 0–500 | slider element |
 
 If we ever get real network data, we should recalibrate the two bands against actual user behavior on Tria. The current values are reasoned estimates, not measured.

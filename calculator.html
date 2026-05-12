@@ -222,7 +222,7 @@
   <!-- HEADLINE -->
   <div class="headline">
     <div class="headline-label">Projected 12-month rewards · Average Pusher</div>
-    <div class="headline-value" id="headline-value">$15,300</div>
+    <div class="headline-value" id="headline-value">$17,100</div>
     <div class="headline-sub">USDC / USDT, claimable in-app · paid in stablecoin</div>
   </div>
 
@@ -230,13 +230,13 @@
   <div class="bands">
     <div class="band featured">
       <div class="band-label">Average Pusher</div>
-      <div class="band-value" id="band-average">$15,300</div>
-      <div class="band-monthly" id="band-average-mo">~$1,275 / mo</div>
+      <div class="band-value" id="band-average">$17,100</div>
+      <div class="band-monthly" id="band-average-mo">~$1,425 / mo</div>
     </div>
     <div class="band">
       <div class="band-label">High Pusher</div>
-      <div class="band-value" id="band-high">$59,400</div>
-      <div class="band-monthly" id="band-high-mo">~$4,950 / mo</div>
+      <div class="band-value" id="band-high">$67,500</div>
+      <div class="band-monthly" id="band-high-mo">~$5,625 / mo</div>
     </div>
   </div>
 
@@ -244,16 +244,16 @@
   <div class="breakdown">
     <div class="breakdown-title">Where the Average Pusher number comes from (annual)</div>
     <div class="breakdown-row">
-      <div class="breakdown-label">Futures fee commission<span class="breakdown-pct" id="pct-futures">88%</span></div>
+      <div class="breakdown-label">Futures fee commission<span class="breakdown-pct" id="pct-futures">79%</span></div>
       <div class="breakdown-value" id="row-futures">$13,500</div>
     </div>
     <div class="breakdown-row">
-      <div class="breakdown-label">Card-spend commission<span class="breakdown-pct" id="pct-spend">6%</span></div>
-      <div class="breakdown-value" id="row-spend">$900</div>
+      <div class="breakdown-label">Card-spend commission<span class="breakdown-pct" id="pct-spend">11%</span></div>
+      <div class="breakdown-value" id="row-spend">$1,800</div>
     </div>
     <div class="breakdown-row">
-      <div class="breakdown-label">Card-sale commission<span class="breakdown-pct" id="pct-sales">6%</span></div>
-      <div class="breakdown-value" id="row-sales">$900</div>
+      <div class="breakdown-label">Card-sale commission<span class="breakdown-pct" id="pct-sales">11%</span></div>
+      <div class="breakdown-value" id="row-sales">$1,800</div>
     </div>
   </div>
 
@@ -270,9 +270,10 @@
       <table>
         <tr><th></th><th>Average Pusher</th><th>High Pusher</th></tr>
         <tr><td>Monthly trading volume per ref</td><td>$500K</td><td>$2M</td></tr>
-        <tr><td>Monthly card spend per ref</td><td>$1,000</td><td>$3,000</td></tr>
-        <tr><td>Card activity per ref (annual)</td><td>$100</td><td>$300</td></tr>
+        <tr><td>Monthly card spend per ref</td><td>$2,000</td><td>$5,000</td></tr>
+        <tr><td>Card-subscription sales per ref / year</td><td>$200</td><td>$1,000</td></tr>
       </table>
+      <p style="margin-top:10px"><strong>Card-subscription sales</strong> = the gross dollar value of cards your network buys per year (new issuance, upgrades, replacements). Modeled at a middle-ground price between Virtual ($20), Signature ($90), and Premium ($225) — so the per-ref number absorbs the product mix. Calibrated against ambassador throughput: at a 30-ref Gold network, Average Pusher = <strong>~5 cards/month</strong>; High Pusher = <strong>~25 cards/month</strong>.</p>
       <p style="margin-top:10px"><strong>Average Pusher</strong> ≈ a crypto-native community where most referrals actually trade and use the card as a primary payment method. <strong>High Pusher</strong> ≈ a serious trader desk or KOL community — power users, Premium cardholders, real volume. Most active KOL networks land between these two, leaning toward High Pusher as the network matures.</p>
     </div>
   </details>
@@ -317,10 +318,14 @@
 
   // Per-referral monthly assumptions, by band.
   // Both bands assume the referral is actively engaged on Tria.
-  // cardActivityAnnual = total annual card-sale gross per referral (absorbs product mix).
+  // cardActivityAnnual = total annual card-subscription gross per referral.
+  // Absorbs the product mix (Virtual $20 / Signature $90 / Premium $225) at a
+  // middle-ground avg price of ~$100/card across new issuance + upgrades.
+  // Calibrated against ambassador-level throughput: Avg = 4–5 cards/month
+  // across a 30-ref network, High = 20–25 cards/month across a 30-ref network.
   const BANDS = {
-    averagePusher: { volume: 500000,  spend: 1000, cardActivityAnnual: 100 },
-    highPusher:    { volume: 2000000, spend: 3000, cardActivityAnnual: 300 },
+    averagePusher: { volume: 500000,  spend: 2000, cardActivityAnnual: 200  },
+    highPusher:    { volume: 2000000, spend: 5000, cardActivityAnnual: 1000 },
   };
 
   const $ = id => document.getElementById(id);

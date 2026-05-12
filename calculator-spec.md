@@ -57,12 +57,12 @@ This is deliberately less detailed than an internal commission simulator. The pu
 
 The calculator shows TWO projection bands — both assume the referral is actively engaged on Tria (no "casual user" floor). All amounts are **per referral**.
 
-| Band | Trading volume / month | Card spend / month | Card-sale activity / year |
+| Band | Trading volume / month | Card spend / month | Card-subscription sales / year |
 |---|---:|---:|---:|
-| **Average Pusher** | $500,000 | $1,000 | $100 |
-| **High Pusher** | $2,000,000 | $3,000 | $300 |
+| **Average Pusher** | $500,000 | $2,000 | $200 |
+| **High Pusher** | $2,000,000 | $5,000 | $1,000 |
 
-**Rationale for `cardActivityAnnual`:** This number absorbs the product mix (Virtual $20 / Signature $90 / Premium $225) into one annual gross figure per referral. Average Pusher ≈ one Signature card per ref/year + occasional Premium. High Pusher ≈ Premium-heavy mix with regular reactivations.
+**Rationale for `cardActivityAnnual`:** This is the gross dollar value of card subscriptions per referral per year, absorbing the product mix (Virtual $20 / Signature $90 / Premium $225) at a middle-ground average price of ~$100/card. Includes new issuance + upgrades + replacements. **Calibrated against ambassador throughput at a 30-ref Gold network:** Average Pusher = ~5 cards/month sold; High Pusher = ~25 cards/month. These scale linearly with `refs` in the formula, so a 100-ref Average Pusher network sells ~17 cards/month, a 500-ref network sells ~83 cards/month.
 
 **Why the rename to "Pusher":** "Average" and "High" suggested a range from casual to power user. The audience for this page (KOLs, MLM veterans, trading community leaders) doesn't operate at the casual end — their networks push real volume by default. "Average Pusher" reads as the realistic floor for a network that's actually moving; "High Pusher" is the same network with mature engagement. There is no "conservative" projection because the program is not built for conservative networks.
 
@@ -102,9 +102,8 @@ const tierFor = (refs) => TIERS.find(t => refs >= t.min && refs <= t.max);
 const TRIA_FUTURES_FEE = 0.0005;  // 0.05% taker fee
 
 const BANDS = {
-  conservative: { volume: 25000,   spend: 50,   cardActivityAnnual: 20  },
-  average:      { volume: 250000,  spend: 500,  cardActivityAnnual: 70  },
-  high:         { volume: 1000000, spend: 1500, cardActivityAnnual: 200 },
+  averagePusher: { volume: 500000,  spend: 2000, cardActivityAnnual: 200  },
+  highPusher:    { volume: 2000000, spend: 5000, cardActivityAnnual: 1000 },
 };
 ```
 
@@ -171,17 +170,17 @@ The implementation should produce these exact numbers at the listed inputs:
 | Active refs | Tier | Average Pusher (12mo) | High Pusher (12mo) |
 |---:|---|---:|---:|
 | 0 | Bronze 1 | $0 | $0 |
-| 5 | Bronze 2 | $890 | $3,420 |
-| 15 | Silver 1 | $4,155 | $16,065 |
-| 25 | Silver 2 | $9,375 | $36,375 |
-| 30 | Gold | $15,300 | $59,400 |
-| 100 | Gold | $51,000 | $198,000 |
-| 250 | Gold | $127,500 | $495,000 |
-| 500 | Gold | $255,000 | $990,000 |
+| 5 | Bronze 2 | $1,030 | $4,250 |
+| 15 | Silver 1 | $4,710 | $19,050 |
+| 25 | Silver 2 | $10,500 | $42,000 |
+| 30 | Gold | $17,100 | $67,500 |
+| 100 | Gold | $57,000 | $225,000 |
+| 250 | Gold | $142,500 | $562,500 |
+| 500 | Gold | $285,000 | $1,125,000 |
 
 If the rebuild produces these numbers ± rounding, the math is correct.
 
-Note the **jump from Silver 2 → Gold at 30 refs**: Average Pusher goes from ~$9,375 → $15,300, High Pusher from ~$36,375 → $59,400. The rate uplift across all three streams at the Gold threshold is significant — design should make the tier badge visibly upgrade when crossing 30.
+Note the **jump from Silver 2 → Gold at 30 refs**: Average Pusher goes from ~$10,500 → $17,100, High Pusher from ~$42,000 → $67,500. The rate uplift across all three streams at the Gold threshold is significant — design should make the tier badge visibly upgrade when crossing 30.
 
 ---
 
